@@ -2,7 +2,7 @@ name: Flys
 version: ${version}
 website: https://pixelplayz.net
 main: de.doetchen.projects.Flys
-api-version: '1.18'
+api-version: '1.21'
 load: STARTUP
 authors: [ Doetchen ]
 description: Fly's is yet another, but EXTREMELY Sexy fly plugin for Minecraft.
