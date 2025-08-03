@@ -1,0 +1,40 @@
+# ===========================================
+# Fly's v0.0.1
+# Made with <3 by Dötchen
+# My first Public Project :D
+# ===========================================
+
+# Message settings
+messages:
+  prefix: "&8[&b&lFlys&8] "
+  success-icon: "&a+ "
+  error-icon: "&cX "
+  warning-icon: "&e! "
+  info-icon: "&9i "
+
+# !This feature is not yet implemented, but it will be in the future.!
+## Available languages are: "en", "de" and "fr" (more will be added soon)
+language:
+  language: "de"
+
+# Flight messages
+## I recommend to use the typical "minecraft" icons, but Fly's has also UTF-8 support.
+flight:
+  enabled-self: "&a&l✔ Fliegen aktiviert"
+  disabled-self: "&c&l✘ Fliegen deaktiviert"
+  enabled-other: "{PREFIX} &a&l✔ &aFliegen für &e{PLAYER} &aaktiviert!"
+  disabled-other: "{PREFIX}&c&l✘ &cFliegen für &e{PLAYER} &4deaktiviert!"
+  enabled-by-other: "&b&lFliegen wurde von &e{SENDER} &b&laktiviert"
+  disabled-by-other: "&e&lFliegen wurde von &e{SENDER} &e&ldeaktiviert"
+
+# Error messages
+errors:
+  player-only: "{PREFIX}✘&cNur Spieler können diesen Befehl verwenden!"
+  no-permission: "{PREFIX}✘&cDu hast keine Berechtigung für diesen Befehl!"
+  player-not-found: "{PREFIX}✘&cSpieler &e{PLAYER} &cwurde nicht gefunden!"
+  usage: "{PREFIX}{INFO}&eVerwendung: &f/fly [spieler]"
+
+# General settings
+general:
+  enable-particles: true
+  enable-sounds: true

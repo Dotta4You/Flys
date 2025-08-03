@@ -1,0 +1,19 @@
+name: Flys
+version: ${version}
+website: https://pixelplayz.net
+main: de.doetchen.projects.Flys
+api-version: '1.18'
+load: STARTUP
+authors: [ Doetchen ]
+description: Fly's is yet another, but EXTREMELY Sexy fly plugin for Minecraft.
+commands:
+  fly:
+    description: Toggle flight mode for yourself or other players
+    usage: /<command> [player]
+permissions:
+  flys.fly:
+    description: Allows you to toggle flight mode
+    default: op
+  flys.fly.others:
+    description: Allows you to toggle flight mode for other players
+    default: op
