@@ -7,6 +7,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 
 class FlyCommand(private val plugin: Flys) : CommandExecutor, TabCompleter {
@@ -24,6 +25,7 @@ class FlyCommand(private val plugin: Flys) : CommandExecutor, TabCompleter {
 
         if (!sender.hasPermission(FLY_PERMS)) {
             plugin.messageUtils.sendMessage(sender, "errors.no-permission")
+            sender.playSound(sender.location, "block.note_block.bass", 1.0f, 1.0f)
             return true
         }
 
@@ -32,6 +34,7 @@ class FlyCommand(private val plugin: Flys) : CommandExecutor, TabCompleter {
             1 -> {
                 if (!sender.hasPermission(FLY_PERMS_OTHERS)) {
                     plugin.messageUtils.sendMessage(sender, "errors.no-permission")
+                    sender.playSound(sender.location, "block.note_block.bass", 1.0f, 1.0f)
                     return true
                 }
 
