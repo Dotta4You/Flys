@@ -14,7 +14,7 @@ messages:
 
 # !This feature is not yet implemented, but it will be in the future.!
 ## Available languages are: "en", "de" and "fr" (more will be added soon)
-### Just use the custom language files for other languages^^
+### Just use (your own)* the custom language files for other languages^^
 language:
   language: "de"
 
