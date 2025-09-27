@@ -1,11 +1,11 @@
 plugins {
-    kotlin("jvm") version "2.2.10"
+    kotlin("jvm") version "2.2.20"
     id("com.gradleup.shadow") version "9.1.0"
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
 group = "de.doetchen"
-version = "0.2"
+version = "1.0"
 
 repositories {
     mavenCentral()
@@ -19,6 +19,8 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
+    implementation("org.bstats:bstats-bukkit:3.1.0")
+    implementation("com.google.code.gson:gson:2.13.2")
 }
 
 tasks {
@@ -58,4 +60,5 @@ tasks.processResources {
 tasks.shadowJar {
     archiveClassifier.set("")
     relocate("kotlin", "de.doetchen.projects.libs.kotlin")
+    relocate("org.bstats", "de.doetchen.projects.libs.bstats")
 }

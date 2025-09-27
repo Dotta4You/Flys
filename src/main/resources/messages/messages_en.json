@@ -1,0 +1,32 @@
+{
+  "flight": {
+    "enabled-self": "&a&l✔ Flight enabled",
+    "disabled-self": "&c&l✘ Flight disabled",
+    "enabled-other": "&a&l✔ &aFlight enabled for &e{PLAYER}&a!",
+    "disabled-other": "&c&l✘ &cFlight disabled for &e{PLAYER}&4!",
+    "enabled-by-other": "&b&lFlight was enabled by &e{SENDER}",
+    "disabled-by-other": "&e&lFlight was disabled by &e{SENDER}"
+  },
+  "errors": {
+    "player-only": "&c✘ Only players can use this command!",
+    "no-permission": "&c✘ You don't have permission for this command!",
+    "player-not-found": "&c✘ Player &e{PLAYER} &cwas not found!",
+    "usage": "&e&lℹ &eUsage: &f/fly [player]",
+    "world-not-allowed": "&c✘ Flying is not allowed in this world!"
+  },
+  "flyspeed": {
+    "current": "&e&lℹ &eCurrent flight speed: &b{SPEED}&e/10",
+    "set": "&a&l+ &aFlight speed set to &b{SPEED}&a/10!",
+    "set-other": "&a&l+ &aFlight speed for &e{PLAYER} &aset to &b{SPEED}&a/10!",
+    "set-by-other": "&e&lℹ &eYour flight speed was set to &b{SPEED}&e/10 by &b{SENDER}&e!",
+    "invalid-range": "&c✘ Invalid speed! Use values from 1-10.",
+    "flight-not-enabled": "&c✘ You must enable flight first!",
+    "target-flight-not-enabled": "&c✘ Player &e{PLAYER} &cdoesn't have flight enabled!",
+    "usage": "&e&lℹ &eUsage: &f/flyspeed [1-10] &eor &f/flyspeed [player] [1-10]"
+  },
+  "reload": {
+    "success": "&a&l+ &aConfiguration successfully reloaded!",
+    "error": "&c✘ Error while reloading configuration!"
+  }
+}
+

@@ -10,10 +10,25 @@ commands:
   fly:
     description: Toggle flight mode for yourself or other players
     usage: /<command> [player]
+  flyspeed:
+    description: Set flight speed from 1-10
+    usage: /<command> [1-10] or /<command> [player] [1-10]
+  flyreload:
+    description: Reload the plugin configuration
+    usage: /<command>
 permissions:
   flys.fly:
     description: Allows you to toggle flight mode
     default: op
   flys.fly.others:
     description: Allows you to toggle flight mode for other players
+    default: op
+  flys.flyspeed:
+    description: Allows you to change flight speed
+    default: op
+  flys.flyspeed.others:
+    description: Allows you to change flight speed for other players
+    default: op
+  flys.flyreload:
+    description: Allows you to reload the plugin configuration
     default: op

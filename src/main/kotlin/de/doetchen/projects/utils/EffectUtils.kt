@@ -1,3 +1,10 @@
+/*
+ * ==========================================
+ * Fly's Plugin v1.0
+ * Made by Dötchen with <3
+ * https://github.com/Dotta4You/Flys
+ * ==========================================
+ */
 package de.doetchen.projects.utils
 
 import de.doetchen.projects.Flys
@@ -37,10 +44,10 @@ object EffectUtils {
     fun playFlightEnabledEffects(player: Player, plugin: Flys) {
         val location = player.location
 
-        if (!plugin.configManager.getBoolean("general.enable-particles")) return
-
-        spawnWingParticles(location)
-        spawnSparkleParticles(location)
+        if (plugin.configManager.getBoolean("general.enable-particles")) {
+            spawnWingParticles(location)
+            spawnSparkleParticles(location)
+        }
 
         if (plugin.configManager.getBoolean("general.enable-sounds")) {
             player.playSound(location, Sound.ENTITY_ENDER_DRAGON_FLAP, DRAGON_FLAP_VOLUME, DRAGON_FLAP_PITCH)
@@ -51,13 +58,33 @@ object EffectUtils {
     fun playFlightDisabledEffects(player: Player, plugin: Flys) {
         val location = player.location
 
-        if (!plugin.configManager.getBoolean("general.enable-particles")) return
-
-        spawnFallingParticles(location)
+        if (plugin.configManager.getBoolean("general.enable-particles")) {
+            spawnFallingParticles(location)
+        }
 
         if (plugin.configManager.getBoolean("general.enable-sounds")) {
             player.playSound(location, Sound.ENTITY_BAT_TAKEOFF, BAT_VOLUME, BAT_PITCH)
             player.playSound(location, Sound.BLOCK_FIRE_EXTINGUISH, FIRE_VOLUME, FIRE_PITCH)
+        }
+    }
+
+    fun playSpeedChangeEffect(player: Player, plugin: Flys) {
+        val location = player.location
+
+        if (plugin.configManager.getBoolean("general.enable-particles")) {
+            repeat(8) {
+                val angle = (it * 45.0) * Math.PI / 180.0
+                val radius = 1.5
+                val x = location.x + cos(angle) * radius
+                val y = location.y + 1.0
+                val z = location.z + sin(angle) * radius
+                val particleLocation = Location(location.world, x, y, z)
+                spawnParticle(particleLocation, Particle.ENCHANT, 3, 0.1, 0.1, 0.1, 0.0)
+            }
+        }
+
+        if (plugin.configManager.getBoolean("general.enable-sounds")) {
+            player.playSound(location, Sound.BLOCK_NOTE_BLOCK_CHIME, 0.7f, 1.3f)
         }
     }
 

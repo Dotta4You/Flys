@@ -1,6 +1,15 @@
+/*
+ * ==========================================
+ * Fly's Plugin v1.0
+ * Made by Dötchen with <3
+ * https://github.com/Dotta4You/Flys
+ * ==========================================
+ */
 package de.doetchen.projects.utils
 
 import de.doetchen.projects.Flys
+import net.md_5.bungee.api.ChatMessageType
+import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -34,8 +43,7 @@ class MessageUtils(private val plugin: Flys) {
         val parsedMessage = parse(message)
 
         try {
-            val method = player::class.java.getMethod("sendActionBar", String::class.java)
-            method.invoke(player, parsedMessage)
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent(parsedMessage))
         } catch (e: Exception) {
             try {
                 player.sendTitle("", parsedMessage, 0, 60, 10)
@@ -43,14 +51,5 @@ class MessageUtils(private val plugin: Flys) {
                 player.sendMessage("&7[ActionBar] $parsedMessage")
             }
         }
-    }
-
-    companion object {
-        const val PREFIX = "&8[&b&lFlys&8] "
-        const val SUCCESS = "&a+ "
-        const val ERROR = "&cX "
-        const val WARNING = "&e! "
-        const val INFO = "&9i "
-        const val NO_PERMISSION = "${PREFIX}${ERROR}&cDu hast keine Berechtigung für diesen Befehl!"
     }
 }

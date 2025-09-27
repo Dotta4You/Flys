@@ -1,0 +1,32 @@
+{
+  "flight": {
+    "enabled-self": "&a&l✔ Fliegen aktiviert",
+    "disabled-self": "&c&l✘ Fliegen deaktiviert",
+    "enabled-other": "&a&l✔ &aFliegen für &e{PLAYER} &aaktiviert!",
+    "disabled-other": "&c&l✘ &cFliegen für &e{PLAYER} &4deaktiviert!",
+    "enabled-by-other": "&b&lFliegen wurde von &e{SENDER} &b&laktiviert",
+    "disabled-by-other": "&e&lFliegen wurde von &e{SENDER} &e&ldeaktiviert"
+  },
+  "errors": {
+    "player-only": "&c✘ Nur Spieler können diesen Befehl verwenden!",
+    "no-permission": "&c✘ Du hast keine Berechtigung für diesen Befehl!",
+    "player-not-found": "&c✘ Spieler &e{PLAYER} &cwurde nicht gefunden!",
+    "usage": "&e&lℹ &eVerwendung: &f/fly [spieler]",
+    "world-not-allowed": "&c✘ Fliegen ist in dieser Welt nicht erlaubt!"
+  },
+  "flyspeed": {
+    "current": "&e&lℹ &eAktuelle Fluggeschwindigkeit: &b{SPEED}&e/10",
+    "set": "&a&l+ &aFluggeschwindigkeit auf &b{SPEED}&a/10 gesetzt!",
+    "set-other": "&a&l+ &aFluggeschwindigkeit für &e{PLAYER} &aauf &b{SPEED}&a/10 gesetzt!",
+    "set-by-other": "&e&lℹ &eDeine Fluggeschwindigkeit wurde von &b{SENDER} &eauf &b{SPEED}&e/10 gesetzt!",
+    "invalid-range": "&c✘ Ungültige Geschwindigkeit! Verwende Werte von 1-10.",
+    "flight-not-enabled": "&c✘ Du musst zuerst das Fliegen aktivieren!",
+    "target-flight-not-enabled": "&c✘ Spieler &e{PLAYER} &chat das Fliegen nicht aktiviert!",
+    "usage": "&e&lℹ &eVerwendung: &f/flyspeed [1-10] &eoder &f/flyspeed [spieler] [1-10]"
+  },
+  "reload": {
+    "success": "&a&l+ &aKonfiguration erfolgreich neu geladen!",
+    "error": "&c✘ Fehler beim Neuladen der Konfiguration!"
+  }
+}
+
