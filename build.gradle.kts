@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm") version "2.2.20"
-    id("com.gradleup.shadow") version "9.1.0"
-    id("xyz.jpenilla.run-paper") version "2.3.1"
+    id("com.gradleup.shadow") version "9.2.2"
+    id("xyz.jpenilla.run-paper") version "3.0.2"
 }
 
 group = "de.doetchen"
@@ -25,7 +25,7 @@ dependencies {
 
 tasks {
     runServer {
-        minecraftVersion("1.21.8")
+        minecraftVersion("1.21.10")
     }
 
     withType<JavaCompile> {
