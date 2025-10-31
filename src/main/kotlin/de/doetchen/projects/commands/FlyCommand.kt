@@ -18,28 +18,31 @@ import org.bukkit.entity.Player
 
 class FlyCommand(private val plugin: Flys) : CommandExecutor, TabCompleter {
 
+    private fun getPermission(key: String, default: String): String {
+        return plugin.configManager.getString(key).takeIf { it.isNotEmpty() } ?: default
+    }
+
+    private fun checkPermission(player: Player, key: String, default: String): Boolean {
+        if (!player.hasPermission(getPermission(key, default))) {
+            plugin.messageUtils.sendMessage(player, "errors.no-permission")
+            player.playSound(player.location, "block.note_block.bass", 1.0f, 1.0f)
+            return false
+        }
+        return true
+    }
+
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender !is Player) {
             plugin.messageUtils.sendMessage(sender, "errors.player-only")
             return true
         }
 
-        val flyPermission = plugin.configManager.getString("permissions.fly").takeIf { it.isNotEmpty() } ?: "flys.fly"
-        if (!sender.hasPermission(flyPermission)) {
-            plugin.messageUtils.sendMessage(sender, "errors.no-permission")
-            sender.playSound(sender.location, "block.note_block.bass", 1.0f, 1.0f)
-            return true
-        }
+        if (!checkPermission(sender, "permissions.fly", "flys.fly")) return true
 
         when (args.size) {
             0 -> toggleFlight(sender, sender)
             1 -> {
-                val flyOthersPermission = plugin.configManager.getString("permissions.fly-others").takeIf { it.isNotEmpty() } ?: "flys.fly.others"
-                if (!sender.hasPermission(flyOthersPermission)) {
-                    plugin.messageUtils.sendMessage(sender, "errors.no-permission")
-                    sender.playSound(sender.location, "block.note_block.bass", 1.0f, 1.0f)
-                    return true
-                }
+                if (!checkPermission(sender, "permissions.fly-others", "flys.fly.others")) return true
 
                 val targetPlayer = Bukkit.getPlayer(args[0])
                 if (targetPlayer == null) {
@@ -83,15 +86,13 @@ class FlyCommand(private val plugin: Flys) : CommandExecutor, TabCompleter {
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String> {
-        val flyPermission = plugin.configManager.getString("permissions.fly").takeIf { it.isNotEmpty() } ?: "flys.fly"
-        if (!sender.hasPermission(flyPermission)) {
+        if (!sender.hasPermission(getPermission("permissions.fly", "flys.fly"))) {
             return emptyList()
         }
 
         return when (args.size) {
             1 -> {
-                val flyOthersPermission = plugin.configManager.getString("permissions.fly-others").takeIf { it.isNotEmpty() } ?: "flys.fly.others"
-                if (sender.hasPermission(flyOthersPermission)) {
+                if (sender.hasPermission(getPermission("permissions.fly-others", "flys.fly.others"))) {
                     Bukkit.getOnlinePlayers()
                         .map { it.name }
                         .filter { it.lowercase().startsWith(args[0].lowercase()) }
@@ -104,3 +105,4 @@ class FlyCommand(private val plugin: Flys) : CommandExecutor, TabCompleter {
         }
     }
 }
+

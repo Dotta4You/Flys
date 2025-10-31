@@ -1,16 +1,16 @@
 # ===========================================
-# Fly's v1.0
+# Fly's v1.1
 # Made with <3 by Dötchen
 # My first Public Project :D
 # ===========================================
 
-# !Make sure you don't forget any characters! Otherwise, the config will break! (config and messages)
+# !Make sure you don't forget any characters (Like ", : or ,)! Otherwise, the config will break! (config and messages)
 
 # Message settings
 messages:
   prefix: "&8[&b&lFlys&8] "
 
-# Language settings (en = English, de = German)
+# Language settings (en = English, de = German, es = Spanish, fr = French, ru = Russian, pl = Polish)
 language:
   language: "en"
 
@@ -27,7 +27,6 @@ general:
   enable-particles: true
   enable-sounds: true
   flight-speed:
-    enabled: true
     default-speed: 0.1
     max-speed: 1.0
 

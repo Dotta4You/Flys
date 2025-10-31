@@ -1,0 +1,34 @@
+{
+  "_note": "These POLISH translations may not be fully accurate. Feel free to edit them to your preference!",
+  "flight": {
+    "enabled-self": "&a&l✔ Latanie włączone",
+    "disabled-self": "&c&l✘ Latanie wyłączone",
+    "enabled-other": "&a&l✔ &aLatanie włączone dla &e{PLAYER}&a!",
+    "disabled-other": "&c&l✘ &cLatanie wyłączone dla &e{PLAYER}&4!",
+    "enabled-by-other": "&b&lLatanie zostało włączone przez &e{SENDER}",
+    "disabled-by-other": "&e&lLatanie zostało wyłączone przez &e{SENDER}"
+  },
+  "errors": {
+    "player-only": "&c✘ Tylko gracze mogą używać tej komendy!",
+    "no-permission": "&c✘ Nie masz uprawnień do tej komendy!",
+    "player-not-found": "&c✘ Gracz &e{PLAYER} &cnie został znaleziony!",
+    "usage": "&e&lℹ &eUżycie: &f/fly [gracz]",
+    "world-not-allowed": "&c✘ Latanie nie jest dozwolone w tym świecie!"
+  },
+  "flyspeed": {
+    "current": "&e&lℹ &eObecna prędkość lotu: &b{SPEED}&e/10",
+    "set": "&a&l+ &aPrędkość lotu ustawiona na &b{SPEED}&a/10!",
+    "set-other": "&a&l+ &aPrędkość lotu dla &e{PLAYER} &austawiona na &b{SPEED}&a/10!",
+    "set-by-other": "&e&lℹ &eTwoja prędkość lotu została ustawiona na &b{SPEED}&e/10 przez &b{SENDER}&e!",
+    "invalid-range": "&c✘ Nieprawidłowa prędkość! Użyj wartości od 1 do 10.",
+    "flight-not-enabled": "&c✘ Najpierw musisz włączyć latanie!",
+    "target-flight-not-enabled": "&c✘ Gracz &e{PLAYER} &cnie ma włączonego latania!",
+    "usage": "&e&lℹ &eUżycie: &f/flyspeed [1-10] &elub &f/flyspeed [gracz] [1-10]"
+  },
+  "reload": {
+    "success": "&a&l+ &aKonfiguracja pomyślnie przeładowana!",
+    "error": "&c✘ Błąd podczas przeładowania konfiguracji!"
+  }
+}
+
+

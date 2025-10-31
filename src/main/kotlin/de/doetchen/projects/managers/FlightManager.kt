@@ -31,10 +31,8 @@ class FlightManager(private val plugin: Flys) : Listener {
         player.isFlying = true
         flyingPlayers.add(player.uniqueId)
 
-        if (plugin.configManager.getBoolean("general.flight-speed.enabled")) {
-            val speed = plugin.configManager.getDouble("general.flight-speed.default-speed", 0.1).toFloat()
-            player.flySpeed = speed.coerceIn(0.0f, 1.0f)
-        }
+        val speed = plugin.configManager.getDouble("general.flight-speed.default-speed", 0.1).toFloat()
+        player.flySpeed = speed.coerceIn(0.0f, 1.0f)
 
         return true
     }

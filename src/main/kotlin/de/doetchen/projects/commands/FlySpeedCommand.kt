@@ -18,20 +18,28 @@ import org.bukkit.entity.Player
 
 class FlySpeedCommand(private val plugin: Flys) : CommandExecutor, TabCompleter {
 
+    private fun getPermission(key: String, default: String): String {
+        return plugin.configManager.getString(key).takeIf { it.isNotEmpty() } ?: default
+    }
+
+    private fun checkPermission(player: Player, key: String, default: String): Boolean {
+        if (!player.hasPermission(getPermission(key, default))) {
+            plugin.messageUtils.sendMessage(player, "errors.no-permission")
+            if (plugin.configManager.getBoolean("general.enable-sounds")) {
+                player.playSound(player.location, "block.note_block.bass", 1.0f, 1.0f)
+            }
+            return false
+        }
+        return true
+    }
+
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender !is Player) {
             plugin.messageUtils.sendMessage(sender, "errors.player-only")
             return true
         }
 
-        val permission = plugin.configManager.getString("permissions.flyspeed").takeIf { it.isNotEmpty() } ?: "flys.flyspeed"
-        if (!sender.hasPermission(permission)) {
-            plugin.messageUtils.sendMessage(sender, "errors.no-permission")
-            if (plugin.configManager.getBoolean("general.enable-sounds")) {
-                sender.playSound(sender.location, "block.note_block.bass", 1.0f, 1.0f)
-            }
-            return true
-        }
+        if (!checkPermission(sender, "permissions.flyspeed", "flys.flyspeed")) return true
 
         when (args.size) {
             0 -> {
@@ -68,14 +76,7 @@ class FlySpeedCommand(private val plugin: Flys) : CommandExecutor, TabCompleter 
                     return true
                 }
 
-                val othersPermission = plugin.configManager.getString("permissions.flyspeed-others").takeIf { it.isNotEmpty() } ?: "flys.flyspeed.others"
-                if (!sender.hasPermission(othersPermission)) {
-                    plugin.messageUtils.sendMessage(sender, "errors.no-permission")
-                    if (plugin.configManager.getBoolean("general.enable-sounds")) {
-                        sender.playSound(sender.location, "block.note_block.bass", 1.0f, 1.0f)
-                    }
-                    return true
-                }
+                if (!checkPermission(sender, "permissions.flyspeed-others", "flys.flyspeed.others")) return true
 
                 val targetPlayer = Bukkit.getPlayer(args[0])
                 if (targetPlayer == null) {
@@ -103,17 +104,15 @@ class FlySpeedCommand(private val plugin: Flys) : CommandExecutor, TabCompleter 
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String> {
-        val permission = plugin.configManager.getString("permissions.flyspeed").takeIf { it.isNotEmpty() } ?: "flys.flyspeed"
-        if (!sender.hasPermission(permission)) {
+        if (!sender.hasPermission(getPermission("permissions.flyspeed", "flys.flyspeed"))) {
             return emptyList()
         }
 
         return when (args.size) {
             1 -> {
-                val othersPermission = plugin.configManager.getString("permissions.flyspeed-others").takeIf { it.isNotEmpty() } ?: "flys.flyspeed.others"
                 val speedOptions = (1..10).map { it.toString() }
 
-                if (sender.hasPermission(othersPermission)) {
+                if (sender.hasPermission(getPermission("permissions.flyspeed-others", "flys.flyspeed.others"))) {
                     val playerNames = Bukkit.getOnlinePlayers()
                         .map { it.name }
                         .filter { it.lowercase().startsWith(args[0].lowercase()) }
@@ -124,8 +123,7 @@ class FlySpeedCommand(private val plugin: Flys) : CommandExecutor, TabCompleter 
                 }
             }
             2 -> {
-                val othersPermission = plugin.configManager.getString("permissions.flyspeed-others").takeIf { it.isNotEmpty() } ?: "flys.flyspeed.others"
-                if (sender.hasPermission(othersPermission)) {
+                if (sender.hasPermission(getPermission("permissions.flyspeed-others", "flys.flyspeed.others"))) {
                     (1..10).map { it.toString() }.filter { it.startsWith(args[1]) }
                 } else {
                     emptyList()

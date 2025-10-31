@@ -1,0 +1,33 @@
+{
+  "_note": "These RUSSIA translations may not be fully accurate. Feel free to edit them to your preference!",
+  "flight": {
+    "enabled-self": "&a&l✔ Полёт включен",
+    "disabled-self": "&c&l✘ Полёт выключен",
+    "enabled-other": "&a&l✔ &aПолёт включен для &e{PLAYER}&a!",
+    "disabled-other": "&c&l✘ &cПолёт выключен для &e{PLAYER}&4!",
+    "enabled-by-other": "&b&lПолёт был включен игроком &e{SENDER}",
+    "disabled-by-other": "&e&lПолёт был выключен игроком &e{SENDER}"
+  },
+  "errors": {
+    "player-only": "&c✘ Только игроки могут использовать эту команду!",
+    "no-permission": "&c✘ У вас нет прав для этой команды!",
+    "player-not-found": "&c✘ Игрок &e{PLAYER} &cне найден!",
+    "usage": "&e&lℹ &eИспользование: &f/fly [игрок]",
+    "world-not-allowed": "&c✘ Полёт запрещен в этом мире!"
+  },
+  "flyspeed": {
+    "current": "&e&lℹ &eТекущая скорость полёта: &b{SPEED}&e/10",
+    "set": "&a&l+ &aСкорость полёта установлена на &b{SPEED}&a/10!",
+    "set-other": "&a&l+ &aСкорость полёта для &e{PLAYER} &aустановлена на &b{SPEED}&a/10!",
+    "set-by-other": "&e&lℹ &eВаша скорость полёта была установлена на &b{SPEED}&e/10 игроком &b{SENDER}&e!",
+    "invalid-range": "&c✘ Неверная скорость! Используйте значения от 1 до 10.",
+    "flight-not-enabled": "&c✘ Сначала нужно включить полёт!",
+    "target-flight-not-enabled": "&c✘ У игрока &e{PLAYER} &cполёт не включен!",
+    "usage": "&e&lℹ &eИспользование: &f/flyspeed [1-10] &eили &f/flyspeed [игрок] [1-10]"
+  },
+  "reload": {
+    "success": "&a&l+ &aКонфигурация успешно перезагружена!",
+    "error": "&c✘ Ошибка при перезагрузке конфигурации!"
+  }
+}
+

@@ -67,8 +67,8 @@ class Flys : JavaPlugin() {
             if (configManager.getBoolean("general.enable-sounds")) "enabled" else "disabled"
         })
 
-        metrics.addCustomChart(SimplePie("flight_speed_enabled") {
-            if (configManager.getBoolean("general.flight-speed.enabled")) "enabled" else "disabled"
+        metrics.addCustomChart(SimplePie("language") {
+            configManager.getString("language.language").takeIf { it.isNotEmpty() } ?: "en"
         })
 
         metrics.addCustomChart(SimplePie("world_restrictions") {

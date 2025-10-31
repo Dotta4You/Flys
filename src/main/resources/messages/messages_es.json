@@ -1,0 +1,33 @@
+{
+  "_note": "These ESPANIOL translation may not be fully accurate. Feel free to edit them to your preference!",
+  "flight": {
+    "enabled-self": "&a&l✔ Vuelo activado",
+    "disabled-self": "&c&l✘ Vuelo desactivado",
+    "enabled-other": "&a&l✔ &a¡Vuelo activado para &e{PLAYER}&a!",
+    "disabled-other": "&c&l✘ &c¡Vuelo desactivado para &e{PLAYER}&4!",
+    "enabled-by-other": "&b&lEl vuelo fue activado por &e{SENDER}",
+    "disabled-by-other": "&e&lEl vuelo fue desactivado por &e{SENDER}"
+  },
+  "errors": {
+    "player-only": "&c✘ ¡Solo los jugadores pueden usar este comando!",
+    "no-permission": "&c✘ ¡No tienes permiso para este comando!",
+    "player-not-found": "&c✘ ¡Jugador &e{PLAYER} &cno encontrado!",
+    "usage": "&e&lℹ &eUso: &f/fly [jugador]",
+    "world-not-allowed": "&c✘ ¡No está permitido volar en este mundo!"
+  },
+  "flyspeed": {
+    "current": "&e&lℹ &eVelocidad de vuelo actual: &b{SPEED}&e/10",
+    "set": "&a&l+ &a¡Velocidad de vuelo establecida en &b{SPEED}&a/10!",
+    "set-other": "&a&l+ &a¡Velocidad de vuelo para &e{PLAYER} &aestablecida en &b{SPEED}&a/10!",
+    "set-by-other": "&e&lℹ &e¡Tu velocidad de vuelo fue establecida en &b{SPEED}&e/10 por &b{SENDER}&e!",
+    "invalid-range": "&c✘ ¡Velocidad inválida! Usa valores de 1-10.",
+    "flight-not-enabled": "&c✘ ¡Primero debes activar el vuelo!",
+    "target-flight-not-enabled": "&c✘ ¡El jugador &e{PLAYER} &cno tiene el vuelo activado!",
+    "usage": "&e&lℹ &eUso: &f/flyspeed [1-10] &eo &f/flyspeed [jugador] [1-10]"
+  },
+  "reload": {
+    "success": "&a&l+ &a¡Configuración recargada exitosamente!",
+    "error": "&c✘ ¡Error al recargar la configuración!"
+  }
+}
+

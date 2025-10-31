@@ -9,7 +9,7 @@ Fly's is no longer just a simple fly toggle – it’s now a fully customizable 
 - **Toggle Flight:** `/fly` to enable or disable flight for yourself or others  
 - **Flight Speed Control:** `/flyspeed` to check or set speeds (1–10) – works for yourself or other players  
 - **World Restrictions:** Allow or block flight in specific worlds, with auto-disable on entry  
-- **Multi-Language Support:** Switch between English and German, edit all messages easily  
+- **Multi-Language Support:** Switch between English, German, Spanish, French, Russian, and Polish – edit all messages easily  
 - **Visual & Sound Effects:** Custom particles and sounds for flight toggle, speed changes, and errors (fully configurable)  
 - **Auto-Update Notifications:** Be informed instantly when new versions are released  
 - **Smart UX:** Action bar messages instead of chat spam, tab completion for all commands, clearer errors  
@@ -42,7 +42,7 @@ Fly's is no longer just a simple fly toggle – it’s now a fully customizable 
 
 ## ⚙️ Configuration  
 
-- **Language:** Switch between English (`en`) and German (`de`)  
+- **Language:** Switch between English (`en`), German (`de`), Spanish (`es`), French (`fr`), Russian (`ru`), and Polish (`pl`)  
 - **Particles & Sounds:** Enable/disable in config  
 - **Worlds:** Define allowed or restricted worlds  
 
