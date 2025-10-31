@@ -117,9 +117,9 @@ class UpdateChecker(private val plugin: Flys) : Listener {
         val currentVersion = plugin.description.version
 
         player.sendMessage("")
-        player.sendMessage(plugin.messageUtils.parse("${prefix}&e&l⚡ UPDATE VERFÜGBAR!"))
-        player.sendMessage(plugin.messageUtils.parse("${prefix}&7Aktuelle Version: &c$currentVersion"))
-        player.sendMessage(plugin.messageUtils.parse("${prefix}&7Neueste Version: &a$latestVersion"))
+        player.sendMessage(plugin.messageUtils.parse("${prefix}&e&l⚡ UPDATE AVAILABLE!"))
+        player.sendMessage(plugin.messageUtils.parse("${prefix}&7Current Version: &c$currentVersion"))
+        player.sendMessage(plugin.messageUtils.parse("${prefix}&7Latest Version: &a$latestVersion"))
         player.sendMessage(plugin.messageUtils.parse("${prefix}&7Download: &bhttps://modrinth.com/plugin/flys/changelog"))
         player.sendMessage("")
 
