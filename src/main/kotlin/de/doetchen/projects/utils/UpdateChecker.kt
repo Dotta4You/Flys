@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
+import java.net.URI
 import java.net.URL
 import java.util.concurrent.CompletableFuture
 
@@ -38,7 +39,7 @@ class UpdateChecker(private val plugin: Flys) : Listener {
                     return@supplyAsync updateAvailable
                 }
 
-                val url = URL(GITHUB_API_URL)
+                val url = URI.create(GITHUB_API_URL).toURL()
                 val connection = url.openConnection() as HttpURLConnection
                 connection.requestMethod = "GET"
                 connection.connectTimeout = 5000
