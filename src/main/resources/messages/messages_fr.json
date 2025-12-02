@@ -28,6 +28,32 @@
   "reload": {
     "success": "&a&l+ &aConfiguration rechargée avec succès !",
     "error": "&c✘ Erreur lors du rechargement de la configuration !"
+  },
+  "world-management": {
+    "usage-main": "&e&lℹ &eUtilisation : &f/flys <addworld|removeworld|listworlds>",
+    "usage-main-line1": "&7▪ &f/flys addworld <monde> <allowed|disallowed>",
+    "usage-main-line2": "&7▪ &f/flys removeworld <monde>",
+    "usage-main-line3": "&7▪ &f/flys listworlds",
+    "usage-add": "&e&lℹ &eUtilisation : &f/flys addworld <monde> <allowed|disallowed>",
+    "usage-remove": "&e&lℹ &eUtilisation : &f/flys removeworld <monde>",
+    "world-not-found": "&c✘ Monde &e{WORLD} &cintrouvable !",
+    "already-in-allowed": "&c✘ Le monde &e{WORLD} &cest déjà dans la liste autorisée !",
+    "already-in-disabled": "&c✘ Le monde &e{WORLD} &cest déjà dans la liste désactivée !",
+    "world-added-allowed": "&a&l+ &aMonde &e{WORLD} &aajouté aux mondes autorisés !",
+    "world-added-disallowed": "&c&l+ &aMonde &e{WORLD} &aajouté aux mondes désactivés !",
+    "world-removed": "&c&l- &cMonde &e{WORLD} &cretiré de la configuration !",
+    "world-not-in-list": "&c✘ Le monde &e{WORLD} &cn'est pas configuré !",
+    "list-header": "&b&l━━━━━━ Restrictions de Monde ━━━━━━",
+    "all-worlds-allowed": "&a✔ Le vol est autorisé dans tous les mondes",
+    "allowed-worlds": "&a&lMondes Autorisés ({COUNT}) :",
+    "disabled-worlds": "&c&lMondes Désactivés ({COUNT}) :",
+    "world-entry": "&7- &e{WORLD}"
+  },
+  "update": {
+    "available": "&e&l⚡ MISE À JOUR DISPONIBLE !",
+    "current-version": "&7Version Actuelle : &c{VERSION}",
+    "latest-version": "&7Dernière Version : &a{VERSION}",
+    "download": "&7Télécharger : &bhttps://modrinth.com/plugin/flys/changelog"
   }
 }
 

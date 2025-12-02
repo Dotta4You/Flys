@@ -11,8 +11,9 @@ import de.doetchen.projects.Flys
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.command.TabCompleter
 
-class FlyReloadCommand(private val plugin: Flys) : CommandExecutor {
+class FlyReloadCommand(private val plugin: Flys) : CommandExecutor, TabCompleter {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         val permission = plugin.configManager.getString("permissions.flyreload").takeIf { it.isNotEmpty() } ?: "flys.flyreload"
@@ -37,5 +38,9 @@ class FlyReloadCommand(private val plugin: Flys) : CommandExecutor {
         }
 
         return true
+    }
+
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String> {
+        return emptyList()
     }
 }

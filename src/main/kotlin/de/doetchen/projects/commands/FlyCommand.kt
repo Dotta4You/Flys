@@ -1,10 +1,11 @@
 /*
  * ==========================================
- * Fly's Plugin v1.0
+ * Fly's Plugin v1.2
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
  */
+
 package de.doetchen.projects.commands
 
 import de.doetchen.projects.Flys
@@ -32,6 +33,7 @@ class FlyCommand(private val plugin: Flys) : CommandExecutor, TabCompleter {
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+
         if (sender !is Player) {
             plugin.messageUtils.sendMessage(sender, "errors.player-only")
             return true

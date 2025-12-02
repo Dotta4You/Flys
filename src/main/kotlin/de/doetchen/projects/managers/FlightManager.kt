@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.0
+ * Fly's Plugin v1.2
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -117,5 +117,15 @@ class FlightManager(private val plugin: Flys) : Listener {
         val clampedSpeed = speed.coerceIn(0.0f, maxSpeed)
         player.flySpeed = clampedSpeed
         return true
+    }
+
+    fun getFlyingPlayers(): List<Player> {
+        return flyingPlayers.mapNotNull { uuid ->
+            plugin.server.getPlayer(uuid)
+        }
+    }
+
+    fun isFlightAllowedInWorldPublic(worldName: String): Boolean {
+        return isFlightAllowedInWorld(worldName)
     }
 }

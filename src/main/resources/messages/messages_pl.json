@@ -28,6 +28,32 @@
   "reload": {
     "success": "&a&l+ &aKonfiguracja pomyślnie przeładowana!",
     "error": "&c✘ Błąd podczas przeładowania konfiguracji!"
+  },
+  "world-management": {
+    "usage-main": "&e&lℹ &eUżycie: &f/flys <addworld|removeworld|listworlds>",
+    "usage-main-line1": "&7▪ &f/flys addworld <świat> <allowed|disallowed>",
+    "usage-main-line2": "&7▪ &f/flys removeworld <świat>",
+    "usage-main-line3": "&7▪ &f/flys listworlds",
+    "usage-add": "&e&lℹ &eUżycie: &f/flys addworld <świat> <allowed|disallowed>",
+    "usage-remove": "&e&lℹ &eUżycie: &f/flys removeworld <świat>",
+    "world-not-found": "&c✘ Świat &e{WORLD} &cnie został znaleziony!",
+    "already-in-allowed": "&c✘ Świat &e{WORLD} &cjest już na liście dozwolonych!",
+    "already-in-disabled": "&c✘ Świat &e{WORLD} &cjest już na liście wyłączonych!",
+    "world-added-allowed": "&a&l+ &aŚwiat &e{WORLD} &adodany do dozwolonych światów!",
+    "world-added-disallowed": "&c&l+ &aŚwiat &e{WORLD} &adodany do wyłączonych światów!",
+    "world-removed": "&c&l- &cŚwiat &e{WORLD} &cusunięty z konfiguracji!",
+    "world-not-in-list": "&c✘ Świat &e{WORLD} &cnie jest skonfigurowany!",
+    "list-header": "&b&l━━━━━━ Ograniczenia Światów ━━━━━━",
+    "all-worlds-allowed": "&a✔ Latanie jest dozwolone we wszystkich światach",
+    "allowed-worlds": "&a&lDozwolone Światy ({COUNT}):",
+    "disabled-worlds": "&c&lWyłączone Światy ({COUNT}):",
+    "world-entry": "&7- &e{WORLD}"
+  },
+  "update": {
+    "available": "&e&l⚡ DOSTĘPNA AKTUALIZACJA!",
+    "current-version": "&7Obecna Wersja: &c{VERSION}",
+    "latest-version": "&7Najnowsza Wersja: &a{VERSION}",
+    "download": "&7Pobierz: &bhttps://modrinth.com/plugin/flys/changelog"
   }
 }
 

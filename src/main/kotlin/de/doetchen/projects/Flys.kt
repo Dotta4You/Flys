@@ -1,15 +1,17 @@
 /*
  * ==========================================
- * Fly's Plugin v1.0
+ * Fly's Plugin v1.2
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
  */
+
 package de.doetchen.projects
 
 import de.doetchen.projects.commands.FlyCommand
 import de.doetchen.projects.commands.FlyReloadCommand
 import de.doetchen.projects.commands.FlySpeedCommand
+import de.doetchen.projects.commands.FlysCommand
 import de.doetchen.projects.managers.ConfigManager
 import de.doetchen.projects.managers.FlightManager
 import de.doetchen.projects.utils.MessageUtils
@@ -30,6 +32,7 @@ class Flys : JavaPlugin() {
         private set
 
     private lateinit var updateChecker: UpdateChecker
+    private lateinit var metrics: Metrics
 
     override fun onEnable() {
         configManager = ConfigManager(this)
@@ -38,27 +41,33 @@ class Flys : JavaPlugin() {
         messageUtils = MessageUtils(this)
         flightManager = FlightManager(this)
         updateChecker = UpdateChecker(this)
-
-        getCommand("fly")?.setExecutor(FlyCommand(this))
-        getCommand("flyspeed")?.setExecutor(FlySpeedCommand(this))
-        getCommand("flyreload")?.setExecutor(FlyReloadCommand(this))
-
-        getCommand("fly")?.tabCompleter = FlyCommand(this)
-        getCommand("flyspeed")?.tabCompleter = FlySpeedCommand(this)
+        metrics = Metrics(this, 24086)
 
         server.pluginManager.registerEvents(flightManager, this)
         server.pluginManager.registerEvents(updateChecker, this)
 
-        val metrics = Metrics(this, 27336)
-        setupMetrics(metrics)
+        getCommand("fly")?.setExecutor(FlyCommand(this))
+        getCommand("flys")?.setExecutor(FlysCommand(this))
+        getCommand("flyspeed")?.setExecutor(FlySpeedCommand(this))
+        getCommand("flyreload")?.setExecutor(FlyReloadCommand(this))
 
-        updateChecker.performInitialCheck()
+        getCommand("fly")?.tabCompleter = FlyCommand(this)
+        getCommand("flys")?.tabCompleter = FlysCommand(this)
+        getCommand("flyspeed")?.tabCompleter = FlySpeedCommand(this)
+        getCommand("flyreload")?.tabCompleter = FlyReloadCommand(this)
 
-        logger.info("Fly's loaded!")
-        logger.info("Version: ${description.version} by ${description.authors}")
-    }
+        if (server.pluginManager.getPlugin("PlaceholderAPI") != null) {
+            try {
+                val hookClass = Class.forName("de.doetchen.projects.hooks.PlaceholderAPIHook")
+                val constructor = hookClass.getConstructor(Flys::class.java)
+                val hook = constructor.newInstance(this) as me.clip.placeholderapi.expansion.PlaceholderExpansion
+                hook.register()
+                logger.info("PlaceholderAPI hook registered successfully!")
+            } catch (e: Exception) {
+                logger.warning("PlaceholderAPI found but hook registration failed: ${e.message}")
+            }
+        }
 
-    private fun setupMetrics(metrics: Metrics) {
         metrics.addCustomChart(SimplePie("particles_enabled") {
             if (configManager.getBoolean("general.enable-particles")) "enabled" else "disabled"
         })
@@ -81,6 +90,11 @@ class Flys : JavaPlugin() {
                 else -> "all_worlds_allowed"
             }
         })
+
+        updateChecker.performInitialCheck()
+
+        logger.info("Fly's loaded!")
+        logger.info("Version: ${description.version} by ${description.authors}")
     }
 
     override fun onDisable() {

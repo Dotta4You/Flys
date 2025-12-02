@@ -17,7 +17,6 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URI
-import java.net.URL
 import java.util.concurrent.CompletableFuture
 
 class UpdateChecker(private val plugin: Flys) : Listener {
@@ -28,7 +27,7 @@ class UpdateChecker(private val plugin: Flys) : Listener {
 
     companion object {
         private const val GITHUB_API_URL = "https://api.github.com/repos/Dotta4You/Flys/releases/latest"
-        private const val CHECK_INTERVAL = 3600000L // 1 hour
+        private const val CHECK_INTERVAL = 3600000L
         private const val UPDATE_PERMISSION = "flys.updatenotify"
     }
 
@@ -100,6 +99,10 @@ class UpdateChecker(private val plugin: Flys) : Listener {
     fun onPlayerJoin(event: PlayerJoinEvent) {
         val player = event.player
 
+        if (!plugin.configManager.getBoolean("update-checker.enabled")) {
+            return
+        }
+
         if (player.isOp || player.hasPermission(UPDATE_PERMISSION) || player.hasPermission("*")) {
             Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, Runnable {
                 checkForUpdates().thenAccept { hasUpdate ->
@@ -109,25 +112,30 @@ class UpdateChecker(private val plugin: Flys) : Listener {
                         })
                     }
                 }
-            }, 40L) // 2 seconds delay
+            }, 40L)
         }
     }
 
     private fun sendUpdateNotification(player: Player) {
-        val prefix = plugin.configManager.getString("messages.prefix")
         val currentVersion = plugin.description.version
 
         player.sendMessage("")
-        player.sendMessage(plugin.messageUtils.parse("${prefix}&e&l⚡ UPDATE AVAILABLE!"))
-        player.sendMessage(plugin.messageUtils.parse("${prefix}&7Current Version: &c$currentVersion"))
-        player.sendMessage(plugin.messageUtils.parse("${prefix}&7Latest Version: &a$latestVersion"))
-        player.sendMessage(plugin.messageUtils.parse("${prefix}&7Download: &bhttps://modrinth.com/plugin/flys/changelog"))
+        plugin.messageUtils.sendMessage(player, "update.available")
+        plugin.messageUtils.sendMessage(player, "update.current-version", "VERSION" to currentVersion)
+        plugin.messageUtils.sendMessage(player, "update.latest-version", "VERSION" to (latestVersion ?: "Unknown"))
+        plugin.messageUtils.sendMessage(player, "update.download")
         player.sendMessage("")
 
-        player.playSound(player.location, "block.note_block.pling", 1.0f, 1.5f)
+        if (plugin.configManager.getBoolean("general.enable-sounds")) {
+            player.playSound(player.location, "block.note_block.pling", 1.0f, 1.5f)
+        }
     }
 
     fun performInitialCheck() {
+        if (!plugin.configManager.getBoolean("update-checker.enabled")) {
+            return
+        }
+
         Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
             checkForUpdates()
         })

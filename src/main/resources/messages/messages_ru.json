@@ -28,6 +28,32 @@
   "reload": {
     "success": "&a&l+ &aКонфигурация успешно перезагружена!",
     "error": "&c✘ Ошибка при перезагрузке конфигурации!"
+  },
+  "world-management": {
+    "usage-main": "&e&lℹ &eИспользование: &f/flys <addworld|removeworld|listworlds>",
+    "usage-main-line1": "&7▪ &f/flys addworld <мир> <allowed|disallowed>",
+    "usage-main-line2": "&7▪ &f/flys removeworld <мир>",
+    "usage-main-line3": "&7▪ &f/flys listworlds",
+    "usage-add": "&e&lℹ &eИспользование: &f/flys addworld <мир> <allowed|disallowed>",
+    "usage-remove": "&e&lℹ &eИспользование: &f/flys removeworld <мир>",
+    "world-not-found": "&c✘ Мир &e{WORLD} &cне найден!",
+    "already-in-allowed": "&c✘ Мир &e{WORLD} &cуже в списке разрешённых!",
+    "already-in-disabled": "&c✘ Мир &e{WORLD} &cуже в списке отключённых!",
+    "world-added-allowed": "&a&l+ &aМир &e{WORLD} &aдобавлен в разрешенные миры!",
+    "world-added-disallowed": "&c&l+ &aМир &e{WORLD} &aдобавлен в отключенные миры!",
+    "world-removed": "&c&l- &cМир &e{WORLD} &cудален из конфигурации!",
+    "world-not-in-list": "&c✘ Мир &e{WORLD} &cне настроен!",
+    "list-header": "&b&l━━━━━━ Ограничения Миров ━━━━━━",
+    "all-worlds-allowed": "&a✔ Полёт разрешен во всех мирах",
+    "allowed-worlds": "&a&lРазрешенные Миры ({COUNT}):",
+    "disabled-worlds": "&c&lОтключенные Миры ({COUNT}):",
+    "world-entry": "&7- &e{WORLD}"
+  },
+  "update": {
+    "available": "&e&l⚡ ДОСТУПНО ОБНОВЛЕНИЕ!",
+    "current-version": "&7Текущая Версия: &c{VERSION}",
+    "latest-version": "&7Последняя Версия: &a{VERSION}",
+    "download": "&7Скачать: &bhttps://modrinth.com/plugin/flys/changelog"
   }
 }
 

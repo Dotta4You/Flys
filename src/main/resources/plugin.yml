@@ -6,22 +6,37 @@ api-version: '1.21'
 load: STARTUP
 authors: [ Doetchen ]
 description: Fly's is yet another, but EXTREMELY Sexy fly plugin for Minecraft.
+softdepend: [PlaceholderAPI]
 commands:
   fly:
     description: Toggle flight mode for yourself or other players
     usage: /<command> [player]
+    permission: flys.fly
+    permission-message: You don't have permission to use this command!
+  flys:
+    description: Manage world restrictions for flight
+    usage: /<command> addworld <world> <allowed|disallowed> or /<command> removeworld <world> or /<command> listworlds
+    permission: flys.admin
+    permission-message: You don't have permission to use this command!
   flyspeed:
     description: Set flight speed from 1-10
     usage: /<command> [1-10] or /<command> [player] [1-10]
+    permission: flys.flyspeed
+    permission-message: You don't have permission to use this command!
   flyreload:
     description: Reload the plugin configuration
     usage: /<command>
+    permission: flys.flyreload
+    permission-message: You don't have permission to use this command!
 permissions:
   flys.fly:
     description: Allows you to toggle flight mode
     default: op
   flys.fly.others:
     description: Allows you to toggle flight mode for other players
+    default: op
+  flys.admin:
+    description: Allows you to manage world restrictions
     default: op
   flys.flyspeed:
     description: Allows you to change flight speed
@@ -31,4 +46,7 @@ permissions:
     default: op
   flys.flyreload:
     description: Allows you to reload the plugin configuration
+    default: op
+  flys.updatenotify:
+    description: Allows you to receive update notifications on join
     default: op

@@ -1,5 +1,5 @@
 # ===========================================
-# Fly's v1.1.1
+# Fly's v1.2
 # Made with <3 by Dötchen
 # My first Public Project :D
 # ===========================================
@@ -14,10 +14,14 @@ messages:
 language:
   language: "en"
 
+update-checker:
+  enabled: true
+
 # Permissions (customizable)
 permissions:
   fly: "flys.fly"
   fly-others: "flys.fly.others"
+  admin: "flys.admin"
   flyspeed: "flys.flyspeed"
   flyspeed-others: "flys.flyspeed.others"
   flyreload: "flys.flyreload"

@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.0
+ * Fly's Plugin v1.2
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -146,6 +146,26 @@ class ConfigManager(private val plugin: Flys) {
             "reload" to mapOf(
                 "success" to "&a&l+ &aConfiguration successfully reloaded!",
                 "error" to "&c✘ Error while reloading configuration!"
+            ),
+            "world-management" to mapOf(
+                "usage-main" to "&e&lℹ &eUsage: &f/flys <addworld|removeworld|listworlds>",
+                "usage-main-line1" to "&7▪ &f/flys addworld <world> <allowed|disallowed>",
+                "usage-main-line2" to "&7▪ &f/flys removeworld <world>",
+                "usage-main-line3" to "&7▪ &f/flys listworlds",
+                "usage-add" to "&e&lℹ &eUsage: &f/flys addworld <world> <allowed|disallowed>",
+                "usage-remove" to "&e&lℹ &eUsage: &f/flys removeworld <world>",
+                "world-not-found" to "&c✘ World &e{WORLD} &cwas not found!",
+                "already-in-allowed" to "&c✘ World &e{WORLD} &cis already in the allowed list!",
+                "already-in-disabled" to "&c✘ World &e{WORLD} &cis already in the disabled list!",
+                "world-added-allowed" to "&a&l+ &aWorld &e{WORLD} &aadded to allowed worlds!",
+                "world-added-disallowed" to "&c&l+ &aWorld &e{WORLD} &aadded to disabled worlds!",
+                "world-removed" to "&c&l- &cWorld &e{WORLD} &cremoved from configuration!",
+                "world-not-in-list" to "&c✘ World &e{WORLD} &cis not configured!",
+                "list-header" to "&b&l━━━━━━ World Restrictions ━━━━━━",
+                "all-worlds-allowed" to "&a✔ All worlds allow flight",
+                "allowed-worlds" to "&a&lAllowed Worlds ({COUNT}):",
+                "disabled-worlds" to "&c&lDisabled Worlds ({COUNT}):",
+                "world-entry" to "&7- &e{WORLD}"
             )
         )
     }
@@ -180,6 +200,26 @@ class ConfigManager(private val plugin: Flys) {
             "reload" to mapOf(
                 "success" to "&a&l+ &aKonfiguration erfolgreich neu geladen!",
                 "error" to "&c✘ Fehler beim Neuladen der Konfiguration!"
+            ),
+            "world-management" to mapOf(
+                "usage-main" to "&e&lℹ &eVerwendung: &f/flys <addworld|removeworld|listworlds>",
+                "usage-main-line1" to "&7▪ &f/flys addworld <welt> <allowed|disallowed>",
+                "usage-main-line2" to "&7▪ &f/flys removeworld <welt>",
+                "usage-main-line3" to "&7▪ &f/flys listworlds",
+                "usage-add" to "&e&lℹ &eVerwendung: &f/flys addworld <welt> <allowed|disallowed>",
+                "usage-remove" to "&e&lℹ &eVerwendung: &f/flys removeworld <welt>",
+                "world-not-found" to "&c✘ Welt &e{WORLD} &cwurde nicht gefunden!",
+                "already-in-allowed" to "&c✘ Welt &e{WORLD} &cist bereits in der Erlaubt-Liste!",
+                "already-in-disabled" to "&c✘ Welt &e{WORLD} &cist bereits in der Deaktiviert-Liste!",
+                "world-added-allowed" to "&a&l+ &aWelt &e{WORLD} &azu erlaubten Welten hinzugefügt!",
+                "world-added-disallowed" to "&c&l+ &aWelt &e{WORLD} &azu deaktivierten Welten hinzugefügt!",
+                "world-removed" to "&c&l- &cWelt &e{WORLD} &cvon der Konfiguration entfernt!",
+                "world-not-in-list" to "&c✘ Welt &e{WORLD} &cist nicht konfiguriert!",
+                "list-header" to "&b&l━━━━━━ Welt-Beschränkungen ━━━━━━",
+                "all-worlds-allowed" to "&a✔ In allen Welten ist Fliegen erlaubt",
+                "allowed-worlds" to "&a&lErlaubte Welten ({COUNT}):",
+                "disabled-worlds" to "&c&lDeaktivierte Welten ({COUNT}):",
+                "world-entry" to "&7- &e{WORLD}"
             )
         )
     }
@@ -214,6 +254,26 @@ class ConfigManager(private val plugin: Flys) {
             "reload" to mapOf(
                 "success" to "&a&l+ &a¡Configuración recargada exitosamente!",
                 "error" to "&c✘ ¡Error al recargar la configuración!"
+            ),
+            "world-management" to mapOf(
+                "usage-main" to "&e&lℹ &eUso: &f/flys <addworld|removeworld|listworlds>",
+                "usage-main-line1" to "&7▪ &f/flys addworld <mundo> <allowed|disallowed>",
+                "usage-main-line2" to "&7▪ &f/flys removeworld <mundo>",
+                "usage-main-line3" to "&7▪ &f/flys listworlds",
+                "usage-add" to "&e&lℹ &eUso: &f/flys addworld <mundo> <allowed|disallowed>",
+                "usage-remove" to "&e&lℹ &eUso: &f/flys removeworld <mundo>",
+                "world-not-found" to "&c✘ ¡Mundo &e{WORLD} &cno encontrado!",
+                "already-in-allowed" to "&c✘ ¡El mundo &e{WORLD} &cya está en la lista de permitidos!",
+                "already-in-disabled" to "&c✘ ¡El mundo &e{WORLD} &cya está en la lista de deshabilitados!",
+                "world-added-allowed" to "&a&l+ &a¡Mundo &e{WORLD} &aañadido a mundos permitidos!",
+                "world-added-disallowed" to "&c&l+ &a¡Mundo &e{WORLD} &aañadido a mundos deshabilitados!",
+                "world-removed" to "&c&l- &c¡Mundo &e{WORLD} &celiminado de la configuración!",
+                "world-not-in-list" to "&c✘ ¡El mundo &e{WORLD} &cno está configurado!",
+                "list-header" to "&b&l━━━━━━ Restricciones de Mundos ━━━━━━",
+                "all-worlds-allowed" to "&a✔ Todos los mundos permiten volar",
+                "allowed-worlds" to "&a&lMundos Permitidos ({COUNT}):",
+                "disabled-worlds" to "&c&lMundos Deshabilitados ({COUNT}):",
+                "world-entry" to "&7- &e{WORLD}"
             )
         )
     }
@@ -248,6 +308,26 @@ class ConfigManager(private val plugin: Flys) {
             "reload" to mapOf(
                 "success" to "&a&l+ &aConfiguration rechargée avec succès !",
                 "error" to "&c✘ Erreur lors du rechargement de la configuration !"
+            ),
+            "world-management" to mapOf(
+                "usage-main" to "&e&lℹ &eUtilisation: &f/flys <addworld|removeworld|listworlds>",
+                "usage-main-line1" to "&7▪ &f/flys addworld <monde> <allowed|disallowed>",
+                "usage-main-line2" to "&7▪ &f/flys removeworld <monde>",
+                "usage-main-line3" to "&7▪ &f/flys listworlds",
+                "usage-add" to "&e&lℹ &eUtilisation: &f/flys addworld <monde> <allowed|disallowed>",
+                "usage-remove" to "&e&lℹ &eUtilisation: &f/flys removeworld <monde>",
+                "world-not-found" to "&c✘ Monde &e{WORLD} &cintrouvable!",
+                "already-in-allowed" to "&c✘ Le monde &e{WORLD} &cest déjà dans la liste autorisée!",
+                "already-in-disabled" to "&c✘ Le monde &e{WORLD} &cest déjà dans la liste désactivée!",
+                "world-added-allowed" to "&a&l+ &aMonde &e{WORLD} &aajouté aux mondes autorisés!",
+                "world-added-disallowed" to "&c&l+ &aMonde &e{WORLD} &aajouté aux mondes désactivés!",
+                "world-removed" to "&c&l- &cMonde &e{WORLD} &cretiré de la configuration!",
+                "world-not-in-list" to "&c✘ Le monde &e{WORLD} &cn'est pas configuré!",
+                "list-header" to "&b&l━━━━━━ Restrictions des Mondes ━━━━━━",
+                "all-worlds-allowed" to "&a✔ Tous les mondes autorisent le vol",
+                "allowed-worlds" to "&a&lMondes Autorisés ({COUNT}):",
+                "disabled-worlds" to "&c&lMondes Désactivés ({COUNT}):",
+                "world-entry" to "&7- &e{WORLD}"
             )
         )
     }
@@ -282,6 +362,26 @@ class ConfigManager(private val plugin: Flys) {
             "reload" to mapOf(
                 "success" to "&a&l+ &aКонфигурация успешно перезагружена!",
                 "error" to "&c✘ Ошибка при перезагрузке конфигурации!"
+            ),
+            "world-management" to mapOf(
+                "usage-main" to "&e&lℹ &eИспользование: &f/flys <addworld|removeworld|listworlds>",
+                "usage-main-line1" to "&7▪ &f/flys addworld <мир> <allowed|disallowed>",
+                "usage-main-line2" to "&7▪ &f/flys removeworld <мир>",
+                "usage-main-line3" to "&7▪ &f/flys listworlds",
+                "usage-add" to "&e&lℹ &eИспользование: &f/flys addworld <мир> <allowed|disallowed>",
+                "usage-remove" to "&e&lℹ &eИспользование: &f/flys removeworld <мир>",
+                "world-not-found" to "&c✘ Мир &e{WORLD} &cне найден!",
+                "already-in-allowed" to "&c✘ Мир &e{WORLD} &cуже в списке разрешённых!",
+                "already-in-disabled" to "&c✘ Мир &e{WORLD} &cуже в списке отключённых!",
+                "world-added-allowed" to "&a&l+ &aМир &e{WORLD} &aдобавлен в разрешённые миры!",
+                "world-added-disallowed" to "&c&l+ &aМир &e{WORLD} &aдобавлен в отключённые миры!",
+                "world-removed" to "&c&l- &cМир &e{WORLD} &cудалён из конфигурации!",
+                "world-not-in-list" to "&c✘ Мир &e{WORLD} &cне находится в конфигурации!",
+                "list-header" to "&b&l━━━━━━ Ограничения Миров ━━━━━━",
+                "all-worlds-allowed" to "&a✔ Все миры разрешают полёты",
+                "allowed-worlds" to "&a&lРазрешённые Миры ({COUNT}):",
+                "disabled-worlds" to "&c&lОтключённые Миры ({COUNT}):",
+                "world-entry" to "&7- &e{WORLD}"
             )
         )
     }
@@ -316,6 +416,26 @@ class ConfigManager(private val plugin: Flys) {
             "reload" to mapOf(
                 "success" to "&a&l+ &aKonfiguracja pomyślnie przeładowana!",
                 "error" to "&c✘ Błąd podczas przeładowania konfiguracji!"
+            ),
+            "world-management" to mapOf(
+                "usage-main" to "&e&lℹ &eUżycie: &f/flys <addworld|removeworld|listworlds>",
+                "usage-main-line1" to "&7▪ &f/flys addworld <świat> <allowed|disallowed>",
+                "usage-main-line2" to "&7▪ &f/flys removeworld <świat>",
+                "usage-main-line3" to "&7▪ &f/flys listworlds",
+                "usage-add" to "&e&lℹ &eUżycie: &f/flys addworld <świat> <allowed|disallowed>",
+                "usage-remove" to "&e&lℹ &eUżycie: &f/flys removeworld <świat>",
+                "world-not-found" to "&c✘ Świat &e{WORLD} &cnie został znaleziony!",
+                "already-in-allowed" to "&c✘ Świat &e{WORLD} &cjest już na liście dozwolonych!",
+                "already-in-disabled" to "&c✘ Świat &e{WORLD} &cjest już na liście wyłączonych!",
+                "world-added-allowed" to "&a&l+ &aŚwiat &e{WORLD} &adodany do dozwolonych światów!",
+                "world-added-disallowed" to "&c&l+ &aŚwiat &e{WORLD} &adodany do wyłączonych światów!",
+                "world-removed" to "&c&l- &cŚwiat &e{WORLD} &cusunięty z konfiguracji!",
+                "world-not-in-list" to "&c✘ Świat &e{WORLD} &cnie jest skonfigurowany!",
+                "list-header" to "&b&l━━━━━━ Ograniczenia Światów ━━━━━━",
+                "all-worlds-allowed" to "&a✔ Wszystkie światy zezwalają na latanie",
+                "allowed-worlds" to "&a&lDozwolone Światy ({COUNT}):",
+                "disabled-worlds" to "&c&lWyłączone Światy ({COUNT}):",
+                "world-entry" to "&7- &e{WORLD}"
             )
         )
     }
@@ -327,7 +447,7 @@ class ConfigManager(private val plugin: Flys) {
         plugin.logger.info("Config reloaded!")
     }
 
-    fun getString(path: String, vararg placeholders: Pair<String, String>): String {
+    fun getMessage(path: String, vararg placeholders: Pair<String, String>): String {
         val message = getMessageFromPath(path) ?: run {
             plugin.logger.warning("Message path '$path' not found!")
             when (path) {
@@ -386,4 +506,16 @@ class ConfigManager(private val plugin: Flys) {
     fun getDouble(path: String, defaultValue: Double = 0.0): Double = config.getDouble(path, defaultValue)
 
     fun getStringList(path: String): List<String> = config.getStringList(path)
+    fun setStringList(path: String, value: List<String>) {
+        config.set(path, value)
+    }
+
+    fun saveConfig() {
+        try {
+            config.save(configFile)
+            plugin.logger.info("Config saved successfully!")
+        } catch (e: Exception) {
+            plugin.logger.severe("Failed to save config: ${e.message}")
+        }
+    }
 }

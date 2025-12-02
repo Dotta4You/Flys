@@ -21,21 +21,18 @@ class MessageUtils(private val plugin: Flys) {
     }
 
     fun sendMessage(player: Player, configPath: String, vararg placeholders: Pair<String, String>) {
-        val message = plugin.configManager.getString(configPath, *placeholders)
+        val message = plugin.configManager.getMessage(configPath, *placeholders)
         player.sendMessage(parse(message))
     }
 
     fun sendMessage(sender: CommandSender, configPath: String, vararg placeholders: Pair<String, String>) {
-        val message = plugin.configManager.getString(configPath, *placeholders)
+        val message = plugin.configManager.getMessage(configPath, *placeholders)
         sender.sendMessage(parse(message))
     }
 
-    fun sendMessage(sender: CommandSender, message: String) {
-        sender.sendMessage(parse(message))
-    }
 
     fun sendActionBar(player: Player, configPath: String, vararg placeholders: Pair<String, String>) {
-        val message = plugin.configManager.getString(configPath, *placeholders)
+        val message = plugin.configManager.getMessage(configPath, *placeholders)
         sendActionBarMessage(player, message)
     }
 
