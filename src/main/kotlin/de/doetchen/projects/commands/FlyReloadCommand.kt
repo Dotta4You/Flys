@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.0
+ * Fly's Plugin v1.3
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -29,8 +29,7 @@ class FlyReloadCommand(private val plugin: Flys) : CommandExecutor, TabCompleter
 
         try {
             plugin.configManager.reloadConfig()
-            val prefix = plugin.configManager.getString("messages.prefix")
-            sender.sendMessage(plugin.messageUtils.parse("$prefix&a&l✔ &aConfig reloaded! &7(&ev${plugin.description.version}&7)"))
+            plugin.messageUtils.sendMessage(sender, "reload.success")
             plugin.logger.info("Config reloaded by ${sender.name}")
         } catch (e: Exception) {
             plugin.messageUtils.sendMessage(sender, "reload.error")

@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.2
+ * Fly's Plugin v1.3
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -66,15 +66,11 @@ class FlightManager(private val plugin: Flys) : Listener {
         val player = event.player
 
         when (event.newGameMode) {
-            GameMode.CREATIVE, GameMode.SPECTATOR -> {
-                flyingPlayers.remove(player.uniqueId)
-            }
+            GameMode.CREATIVE, GameMode.SPECTATOR -> flyingPlayers.remove(player.uniqueId)
             GameMode.SURVIVAL, GameMode.ADVENTURE -> {
                 if (hasFlightEnabled(player)) {
                     plugin.server.scheduler.runTaskLater(plugin, Runnable {
-                        if (player.isOnline && hasFlightEnabled(player)) {
-                            player.allowFlight = true
-                        }
+                        if (player.isOnline && hasFlightEnabled(player)) player.allowFlight = true
                     }, 1L)
                 }
             }
@@ -85,28 +81,23 @@ class FlightManager(private val plugin: Flys) : Listener {
     fun onWorldChange(event: PlayerChangedWorldEvent) {
         val player = event.player
 
-        if (hasFlightEnabled(player)) {
-            if (!isFlightAllowedInWorld(player.world.name)) {
-                disableFlight(player)
-                plugin.messageUtils.sendMessage(player, "errors.world-not-allowed")
-            } else {
-                plugin.server.scheduler.runTaskLater(plugin, Runnable {
-                    if (player.isOnline && hasFlightEnabled(player)) {
-                        player.allowFlight = true
-                    }
-                }, 1L)
-            }
+        if (!hasFlightEnabled(player)) return
+
+        if (!isFlightAllowedInWorld(player.world.name)) {
+            disableFlight(player)
+            plugin.messageUtils.sendMessage(player, "errors.world-not-allowed")
+        } else {
+            plugin.server.scheduler.runTaskLater(plugin, Runnable {
+                if (player.isOnline && hasFlightEnabled(player)) player.allowFlight = true
+            }, 1L)
         }
     }
 
-    private fun isFlightAllowedInWorld(worldName: String): Boolean {
+    internal fun isFlightAllowedInWorld(worldName: String): Boolean {
         val allowedWorlds = plugin.configManager.getStringList("worlds.allowed-worlds")
         val disabledWorlds = plugin.configManager.getStringList("worlds.disabled-worlds")
 
-        if (disabledWorlds.contains(worldName)) {
-            return false
-        }
-
+        if (disabledWorlds.contains(worldName)) return false
         return allowedWorlds.isEmpty() || allowedWorlds.contains(worldName)
     }
 
@@ -119,13 +110,6 @@ class FlightManager(private val plugin: Flys) : Listener {
         return true
     }
 
-    fun getFlyingPlayers(): List<Player> {
-        return flyingPlayers.mapNotNull { uuid ->
-            plugin.server.getPlayer(uuid)
-        }
-    }
-
-    fun isFlightAllowedInWorldPublic(worldName: String): Boolean {
-        return isFlightAllowedInWorld(worldName)
-    }
+    fun getFlyingPlayers(): List<Player> =
+        flyingPlayers.mapNotNull { plugin.server.getPlayer(it) }
 }

@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.2
+ * Fly's Plugin v1.3
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -52,10 +52,10 @@ class PlaceholderAPIHook(private val plugin: Flys) : PlaceholderExpansion() {
                 }
             }
             "world_allowed" -> {
-                if (plugin.flightManager.isFlightAllowedInWorldPublic(player.world.name)) "true" else "false"
+                if (plugin.flightManager.isFlightAllowedInWorld(player.world.name)) "true" else "false"
             }
             "world_status" -> {
-                if (plugin.flightManager.isFlightAllowedInWorldPublic(player.world.name)) "Allowed" else "Disabled"
+                if (plugin.flightManager.isFlightAllowedInWorld(player.world.name)) "Allowed" else "Disabled"
             }
             "total_flying" -> {
                 plugin.flightManager.getFlyingPlayers().size.toString()

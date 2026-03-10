@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.2
+ * Fly's Plugin v1.3
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -37,9 +37,9 @@ class ConfigManager(private val plugin: Flys) {
 
     private fun loadConfigWithUTF8() {
         try {
-            val reader = InputStreamReader(FileInputStream(configFile), StandardCharsets.UTF_8)
-            config = YamlConfiguration.loadConfiguration(reader)
-            reader.close()
+            config = InputStreamReader(FileInputStream(configFile), StandardCharsets.UTF_8).use { reader ->
+                YamlConfiguration.loadConfiguration(reader)
+            }
         } catch (e: Exception) {
             plugin.logger.severe("Failed to load config with UTF-8: ${e.message}")
             config = plugin.config
@@ -77,12 +77,7 @@ class ConfigManager(private val plugin: Flys) {
                 .setPrettyPrinting()
                 .disableHtmlEscaping()
                 .create()
-            val json = gson.toJson(messages)
-
-            val writer = OutputStreamWriter(FileOutputStream(file), StandardCharsets.UTF_8)
-            writer.write(json)
-            writer.close()
-
+            OutputStreamWriter(FileOutputStream(file), StandardCharsets.UTF_8).use { it.write(gson.toJson(messages)) }
             plugin.logger.info("Created messages file: ${file.name}")
         } catch (e: Exception) {
             plugin.logger.severe("Failed to create messages file ${file.name}: ${e.message}")
@@ -96,11 +91,10 @@ class ConfigManager(private val plugin: Flys) {
         val messagesFile = File(messagesDir, "messages_$currentLanguage.json")
 
         try {
-            val reader = InputStreamReader(FileInputStream(messagesFile), StandardCharsets.UTF_8)
-            val gson = Gson()
             val type = object : TypeToken<Map<String, Any>>() {}.type
-            messages = gson.fromJson(reader, type)
-            reader.close()
+            messages = InputStreamReader(FileInputStream(messagesFile), StandardCharsets.UTF_8).use { reader ->
+                Gson().fromJson(reader, type)
+            }
             plugin.logger.info("Language messages loaded: $currentLanguage")
         } catch (e: Exception) {
             plugin.logger.severe("Failed to load language messages: ${e.message}")

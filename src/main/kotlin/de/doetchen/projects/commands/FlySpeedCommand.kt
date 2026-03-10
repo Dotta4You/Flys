@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.0
+ * Fly's Plugin v1.3
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================

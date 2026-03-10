@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.0
+ * Fly's Plugin v1.3
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -46,9 +46,7 @@ class UpdateChecker(private val plugin: Flys) : Listener {
                 connection.setRequestProperty("User-Agent", "Flys-Plugin-UpdateChecker")
 
                 if (connection.responseCode == 200) {
-                    val reader = BufferedReader(InputStreamReader(connection.inputStream))
-                    val response = reader.readText()
-                    reader.close()
+                    val response = BufferedReader(InputStreamReader(connection.inputStream)).use { it.readText() }
 
                     val tagNameStart = response.indexOf("\"tag_name\":\"") + 12
                     if (tagNameStart > 11) {
@@ -76,23 +74,23 @@ class UpdateChecker(private val plugin: Flys) : Listener {
     }
 
     private fun isNewerVersion(latest: String, current: String): Boolean {
-        try {
-                val latestParts = latest.replace("v", "").split(".")
-                val currentParts = current.replace("v", "").split(".")
+        return try {
+            val latestParts = latest.removePrefix("v").split(".")
+            val currentParts = current.removePrefix("v").split(".")
 
-                for (i in 0 until maxOf(latestParts.size, currentParts.size)) {
-                    val latestPart = latestParts.getOrNull(i)?.toIntOrNull() ?: 0
-                    val currentPart = currentParts.getOrNull(i)?.toIntOrNull() ?: 0
+            for (i in 0 until maxOf(latestParts.size, currentParts.size)) {
+                val latestPart = latestParts.getOrNull(i)?.toIntOrNull() ?: 0
+                val currentPart = currentParts.getOrNull(i)?.toIntOrNull() ?: 0
 
-                    when {
-                        latestPart > currentPart -> return true
-                        latestPart < currentPart -> return false
-                    }
+                when {
+                    latestPart > currentPart -> return true
+                    latestPart < currentPart -> return false
                 }
-            } catch (_: Exception) {
-                return false
             }
-        return false
+            false
+        } catch (_: Exception) {
+            false
+        }
     }
 
     @EventHandler

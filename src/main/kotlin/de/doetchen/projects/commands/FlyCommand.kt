@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.2
+ * Fly's Plugin v1.3
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -26,7 +26,9 @@ class FlyCommand(private val plugin: Flys) : CommandExecutor, TabCompleter {
     private fun checkPermission(player: Player, key: String, default: String): Boolean {
         if (!player.hasPermission(getPermission(key, default))) {
             plugin.messageUtils.sendMessage(player, "errors.no-permission")
-            player.playSound(player.location, "block.note_block.bass", 1.0f, 1.0f)
+            if (plugin.configManager.getBoolean("general.enable-sounds")) {
+                player.playSound(player.location, "block.note_block.bass", 1.0f, 1.0f)
+            }
             return false
         }
         return true

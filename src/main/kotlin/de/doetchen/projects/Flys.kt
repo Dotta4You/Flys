@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.2
+ * Fly's Plugin v1.3
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -46,22 +46,24 @@ class Flys : JavaPlugin() {
         server.pluginManager.registerEvents(flightManager, this)
         server.pluginManager.registerEvents(updateChecker, this)
 
-        getCommand("fly")?.setExecutor(FlyCommand(this))
-        getCommand("flys")?.setExecutor(FlysCommand(this))
-        getCommand("flyspeed")?.setExecutor(FlySpeedCommand(this))
-        getCommand("flyreload")?.setExecutor(FlyReloadCommand(this))
+        val flyCmd = FlyCommand(this)
+        val flysCmd = FlysCommand(this)
+        val flySpeedCmd = FlySpeedCommand(this)
+        val flyReloadCmd = FlyReloadCommand(this)
 
-        getCommand("fly")?.tabCompleter = FlyCommand(this)
-        getCommand("flys")?.tabCompleter = FlysCommand(this)
-        getCommand("flyspeed")?.tabCompleter = FlySpeedCommand(this)
-        getCommand("flyreload")?.tabCompleter = FlyReloadCommand(this)
+        getCommand("fly")?.setExecutor(flyCmd)
+        getCommand("flys")?.setExecutor(flysCmd)
+        getCommand("flyspeed")?.setExecutor(flySpeedCmd)
+        getCommand("flyreload")?.setExecutor(flyReloadCmd)
+
+        getCommand("fly")?.tabCompleter = flyCmd
+        getCommand("flys")?.tabCompleter = flysCmd
+        getCommand("flyspeed")?.tabCompleter = flySpeedCmd
+        getCommand("flyreload")?.tabCompleter = flyReloadCmd
 
         if (server.pluginManager.getPlugin("PlaceholderAPI") != null) {
             try {
-                val hookClass = Class.forName("de.doetchen.projects.hooks.PlaceholderAPIHook")
-                val constructor = hookClass.getConstructor(Flys::class.java)
-                val hook = constructor.newInstance(this) as me.clip.placeholderapi.expansion.PlaceholderExpansion
-                hook.register()
+                de.doetchen.projects.hooks.PlaceholderAPIHook(this).register()
                 logger.info("PlaceholderAPI hook registered successfully!")
             } catch (e: Exception) {
                 logger.warning("PlaceholderAPI found but hook registration failed: ${e.message}")
