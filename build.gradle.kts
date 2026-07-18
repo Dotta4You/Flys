@@ -2,13 +2,13 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "2.3.10"
-    id("com.gradleup.shadow") version "9.3.2"
+    kotlin("jvm") version "2.4.10"
+    id("com.gradleup.shadow") version "9.5.1"
     id("xyz.jpenilla.run-paper") version "3.0.2"
 }
 
 group = "de.doetchen"
-version = "1.3"
+version = "1.3.1"
 
 repositories {
     mavenCentral()
@@ -27,12 +27,12 @@ repositories {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.12.2")
     implementation("org.bstats:bstats-bukkit:3.2.1")
-    implementation("com.google.code.gson:gson:2.13.2")
+    implementation("com.google.code.gson:gson:2.14.0")
 }
 
 tasks {
     runServer {
-        minecraftVersion("1.21.11")
+        minecraftVersion("26.2")
     }
 
     withType<JavaCompile> {
