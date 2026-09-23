@@ -1,21 +1,22 @@
 /*
  * ==========================================
- * Fly's Plugin v1.3
+ * Fly's Plugin v1.4
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
  */
+
 package de.doetchen.projects.managers
 
 import de.doetchen.projects.Flys
+import org.bukkit.GameMode
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerQuitEvent
-import org.bukkit.event.player.PlayerGameModeChangeEvent
 import org.bukkit.event.player.PlayerChangedWorldEvent
-import org.bukkit.GameMode
-import java.util.*
+import org.bukkit.event.player.PlayerGameModeChangeEvent
+import org.bukkit.event.player.PlayerQuitEvent
+import java.util.UUID
 
 class FlightManager(private val plugin: Flys) : Listener {
 
@@ -43,17 +44,14 @@ class FlightManager(private val plugin: Flys) : Listener {
         flyingPlayers.remove(player.uniqueId)
     }
 
-    fun hasFlightEnabled(player: Player): Boolean {
-        return flyingPlayers.contains(player.uniqueId)
-    }
+    fun hasFlightEnabled(player: Player): Boolean = player.uniqueId in flyingPlayers
 
     fun toggleFlight(player: Player): Boolean {
-        return if (hasFlightEnabled(player)) {
+        if (hasFlightEnabled(player)) {
             disableFlight(player)
-            false
-        } else {
-            enableFlight(player)
+            return false
         }
+        return enableFlight(player)
     }
 
     @EventHandler
@@ -67,49 +65,42 @@ class FlightManager(private val plugin: Flys) : Listener {
 
         when (event.newGameMode) {
             GameMode.CREATIVE, GameMode.SPECTATOR -> flyingPlayers.remove(player.uniqueId)
-            GameMode.SURVIVAL, GameMode.ADVENTURE -> {
-                if (hasFlightEnabled(player)) {
-                    plugin.server.scheduler.runTaskLater(plugin, Runnable {
-                        if (player.isOnline && hasFlightEnabled(player)) player.allowFlight = true
-                    }, 1L)
-                }
-            }
+            GameMode.SURVIVAL, GameMode.ADVENTURE -> if (hasFlightEnabled(player)) restoreAllowFlightNextTick(player)
         }
     }
 
     @EventHandler
     fun onWorldChange(event: PlayerChangedWorldEvent) {
         val player = event.player
-
         if (!hasFlightEnabled(player)) return
 
-        if (!isFlightAllowedInWorld(player.world.name)) {
+        if (isFlightAllowedInWorld(player.world.name)) {
+            restoreAllowFlightNextTick(player)
+        } else {
             disableFlight(player)
             plugin.messageUtils.sendMessage(player, "errors.world-not-allowed")
-        } else {
-            plugin.server.scheduler.runTaskLater(plugin, Runnable {
-                if (player.isOnline && hasFlightEnabled(player)) player.allowFlight = true
-            }, 1L)
         }
     }
 
-    internal fun isFlightAllowedInWorld(worldName: String): Boolean {
-        val allowedWorlds = plugin.configManager.getStringList("worlds.allowed-worlds")
-        val disabledWorlds = plugin.configManager.getStringList("worlds.disabled-worlds")
+    private fun restoreAllowFlightNextTick(player: Player) {
+        plugin.server.scheduler.runTaskLater(plugin, Runnable {
+            if (player.isOnline && hasFlightEnabled(player)) player.allowFlight = true
+        }, 1L)
+    }
 
-        if (disabledWorlds.contains(worldName)) return false
-        return allowedWorlds.isEmpty() || allowedWorlds.contains(worldName)
+    internal fun isFlightAllowedInWorld(worldName: String): Boolean {
+        val config = plugin.configManager
+        if (worldName in config.disabledWorlds) return false
+        return config.allowedWorlds.isEmpty() || worldName in config.allowedWorlds
     }
 
     fun setFlightSpeed(player: Player, speed: Float): Boolean {
         if (!hasFlightEnabled(player)) return false
 
         val maxSpeed = plugin.configManager.getDouble("general.flight-speed.max-speed", 1.0).toFloat()
-        val clampedSpeed = speed.coerceIn(0.0f, maxSpeed)
-        player.flySpeed = clampedSpeed
+        player.flySpeed = speed.coerceIn(0.0f, maxSpeed)
         return true
     }
 
-    fun getFlyingPlayers(): List<Player> =
-        flyingPlayers.mapNotNull { plugin.server.getPlayer(it) }
+    fun getFlyingPlayerCount(): Int = flyingPlayers.count { plugin.server.getPlayer(it) != null }
 }

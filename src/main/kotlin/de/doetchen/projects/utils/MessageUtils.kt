@@ -1,10 +1,11 @@
 /*
  * ==========================================
- * Fly's Plugin v1.3
+ * Fly's Plugin v1.4
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
  */
+
 package de.doetchen.projects.utils
 
 import de.doetchen.projects.Flys
@@ -16,20 +17,11 @@ import org.bukkit.entity.Player
 
 class MessageUtils(private val plugin: Flys) {
 
-    fun parse(message: String): String {
-        return ChatColor.translateAlternateColorCodes('&', message)
-    }
-
-    fun sendMessage(player: Player, configPath: String, vararg placeholders: Pair<String, String>) {
-        val message = plugin.configManager.getMessage(configPath, *placeholders)
-        player.sendMessage(parse(message))
-    }
+    fun parse(message: String): String = ChatColor.translateAlternateColorCodes('&', message)
 
     fun sendMessage(sender: CommandSender, configPath: String, vararg placeholders: Pair<String, String>) {
-        val message = plugin.configManager.getMessage(configPath, *placeholders)
-        sender.sendMessage(parse(message))
+        sender.sendMessage(parse(plugin.configManager.getMessage(configPath, *placeholders)))
     }
-
 
     fun sendActionBar(player: Player, configPath: String, vararg placeholders: Pair<String, String>) {
         val message = plugin.configManager.getMessage(configPath, *placeholders)
@@ -37,16 +29,6 @@ class MessageUtils(private val plugin: Flys) {
     }
 
     fun sendActionBarMessage(player: Player, message: String) {
-        val parsedMessage = parse(message)
-
-        try {
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent(parsedMessage))
-        } catch (e: Exception) {
-            try {
-                player.sendTitle("", parsedMessage, 0, 60, 10)
-            } catch (e2: Exception) {
-                player.sendMessage("&7[ActionBar] $parsedMessage")
-            }
-        }
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent(parse(message)))
     }
 }

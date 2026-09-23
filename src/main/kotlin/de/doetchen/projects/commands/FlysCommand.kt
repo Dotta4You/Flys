@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.3
+ * Fly's Plugin v1.4
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -9,42 +9,25 @@
 package de.doetchen.projects.commands
 
 import de.doetchen.projects.Flys
-import org.bukkit.Bukkit
 import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
-import org.bukkit.command.TabCompleter
-import org.bukkit.entity.Player
 
-class FlysCommand(private val plugin: Flys) : CommandExecutor, TabCompleter {
+class FlysCommand(plugin: Flys) : BaseCommand(plugin) {
 
-    private fun getPermission(key: String, default: String): String {
-        return plugin.configManager.getString(key).takeIf { it.isNotEmpty() } ?: default
-    }
+    private val subCommands = listOf("addworld", "removeworld", "listworlds")
+    private val listTypes = listOf("allowed", "disallowed")
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        if (!sender.hasPermission(getPermission("permissions.admin", "flys.admin"))) {
-            plugin.messageUtils.sendMessage(sender, "errors.no-permission")
-            if (sender is Player && plugin.configManager.getBoolean("general.enable-sounds")) {
-                sender.playSound(sender.location, "block.note_block.bass", 1.0f, 1.0f)
-            }
-            return true
+        if (!checkPermission(sender, "permissions.admin", "flys.admin")) return true
+
+        when (args.firstOrNull()?.lowercase()) {
+            "addworld" -> handleAddWorld(sender, args)
+            "removeworld" -> handleRemoveWorld(sender, args)
+            "listworlds" -> handleListWorlds(sender)
+            else -> sendUsageMessage(sender)
         }
 
-        if (args.isEmpty()) {
-            sendUsageMessage(sender)
-            return true
-        }
-
-        when (args[0].lowercase()) {
-            "addworld" -> return handleAddWorld(sender, args)
-            "removeworld" -> return handleRemoveWorld(sender, args)
-            "listworlds" -> return handleListWorlds(sender)
-            else -> {
-                sendUsageMessage(sender)
-                return true
-            }
-        }
+        return true
     }
 
     private fun sendUsageMessage(sender: CommandSender) {
@@ -54,91 +37,85 @@ class FlysCommand(private val plugin: Flys) : CommandExecutor, TabCompleter {
         plugin.messageUtils.sendMessage(sender, "world-management.usage-main-line3")
     }
 
-    private fun handleAddWorld(sender: CommandSender, args: Array<out String>): Boolean {
-        if (args.size < 3) {
+    private fun saveWorlds(allowed: List<String>, disabled: List<String>) {
+        plugin.configManager.setStringList("worlds.allowed-worlds", allowed)
+        plugin.configManager.setStringList("worlds.disabled-worlds", disabled)
+        plugin.configManager.saveConfig()
+    }
+
+    private fun handleAddWorld(sender: CommandSender, args: Array<out String>) {
+        val type = args.getOrNull(2)?.lowercase()
+        if (type !in listTypes) {
             plugin.messageUtils.sendMessage(sender, "world-management.usage-add")
-            return true
+            return
         }
 
         val worldName = args[1]
-        val type = args[2].lowercase()
-
-        if (type != "allowed" && type != "disallowed") {
-            plugin.messageUtils.sendMessage(sender, "world-management.usage-add")
-            return true
-        }
-
-        val world = Bukkit.getWorld(worldName)
+        val world = plugin.server.getWorld(worldName)
         if (world == null) {
             plugin.messageUtils.sendMessage(sender, "world-management.world-not-found", "WORLD" to worldName)
-            return true
+            return
         }
 
         val allowedWorlds = plugin.configManager.getStringList("worlds.allowed-worlds").toMutableList()
         val disabledWorlds = plugin.configManager.getStringList("worlds.disabled-worlds").toMutableList()
+        val allowing = type == "allowed"
 
-        if (type == "allowed" && allowedWorlds.contains(worldName)) {
+        if (allowing && worldName in allowedWorlds) {
             plugin.messageUtils.sendMessage(sender, "world-management.already-in-allowed", "WORLD" to worldName)
-            return true
+            return
         }
-        if (type == "disallowed" && disabledWorlds.contains(worldName)) {
+        if (!allowing && worldName in disabledWorlds) {
             plugin.messageUtils.sendMessage(sender, "world-management.already-in-disabled", "WORLD" to worldName)
-            return true
+            return
         }
 
         allowedWorlds.remove(worldName)
         disabledWorlds.remove(worldName)
 
-        if (type == "allowed") {
+        if (allowing) {
             allowedWorlds.add(worldName)
             plugin.messageUtils.sendMessage(sender, "world-management.world-added-allowed", "WORLD" to worldName)
         } else {
             disabledWorlds.add(worldName)
             plugin.messageUtils.sendMessage(sender, "world-management.world-added-disallowed", "WORLD" to worldName)
-
-            world.players.forEach { player ->
-                if (plugin.flightManager.hasFlightEnabled(player)) {
-                    plugin.flightManager.disableFlight(player)
-                    plugin.messageUtils.sendMessage(player, "errors.world-not-allowed")
-                }
-            }
         }
 
-        plugin.configManager.setStringList("worlds.allowed-worlds", allowedWorlds)
-        plugin.configManager.setStringList("worlds.disabled-worlds", disabledWorlds)
-        plugin.configManager.saveConfig()
+        saveWorlds(allowedWorlds, disabledWorlds)
 
-        return true
+        if (!allowing) {
+            world.players
+                .filter { plugin.flightManager.hasFlightEnabled(it) }
+                .forEach {
+                    plugin.flightManager.disableFlight(it)
+                    plugin.messageUtils.sendMessage(it, "errors.world-not-allowed")
+                }
+        }
     }
 
-    private fun handleRemoveWorld(sender: CommandSender, args: Array<out String>): Boolean {
+    private fun handleRemoveWorld(sender: CommandSender, args: Array<out String>) {
         if (args.size < 2) {
             plugin.messageUtils.sendMessage(sender, "world-management.usage-remove")
-            return true
+            return
         }
 
         val worldName = args[1]
         val allowedWorlds = plugin.configManager.getStringList("worlds.allowed-worlds").toMutableList()
         val disabledWorlds = plugin.configManager.getStringList("worlds.disabled-worlds").toMutableList()
 
-        if (!allowedWorlds.contains(worldName) && !disabledWorlds.contains(worldName)) {
+        if (worldName !in allowedWorlds && worldName !in disabledWorlds) {
             plugin.messageUtils.sendMessage(sender, "world-management.world-not-in-list", "WORLD" to worldName)
-            return true
+            return
         }
 
         allowedWorlds.remove(worldName)
         disabledWorlds.remove(worldName)
-
-        plugin.configManager.setStringList("worlds.allowed-worlds", allowedWorlds)
-        plugin.configManager.setStringList("worlds.disabled-worlds", disabledWorlds)
-        plugin.configManager.saveConfig()
+        saveWorlds(allowedWorlds, disabledWorlds)
 
         plugin.messageUtils.sendMessage(sender, "world-management.world-removed", "WORLD" to worldName)
-
-        return true
     }
 
-    private fun handleListWorlds(sender: CommandSender): Boolean {
+    private fun handleListWorlds(sender: CommandSender) {
         val allowedWorlds = plugin.configManager.getStringList("worlds.allowed-worlds")
         val disabledWorlds = plugin.configManager.getStringList("worlds.disabled-worlds")
 
@@ -147,53 +124,31 @@ class FlysCommand(private val plugin: Flys) : CommandExecutor, TabCompleter {
         if (allowedWorlds.isEmpty()) {
             plugin.messageUtils.sendMessage(sender, "world-management.all-worlds-allowed")
         } else {
-            plugin.messageUtils.sendMessage(sender, "world-management.allowed-worlds", "COUNT" to allowedWorlds.size.toString())
-            allowedWorlds.forEach { world ->
-                plugin.messageUtils.sendMessage(sender, "world-management.world-entry", "WORLD" to world)
-            }
+            sendWorldList(sender, "world-management.allowed-worlds", allowedWorlds)
         }
 
         if (disabledWorlds.isNotEmpty()) {
-            plugin.messageUtils.sendMessage(sender, "world-management.disabled-worlds", "COUNT" to disabledWorlds.size.toString())
-            disabledWorlds.forEach { world ->
-                plugin.messageUtils.sendMessage(sender, "world-management.world-entry", "WORLD" to world)
-            }
+            sendWorldList(sender, "world-management.disabled-worlds", disabledWorlds)
         }
+    }
 
-        return true
+    private fun sendWorldList(sender: CommandSender, headerPath: String, worlds: List<String>) {
+        plugin.messageUtils.sendMessage(sender, headerPath, "COUNT" to worlds.size.toString())
+        worlds.forEach { plugin.messageUtils.sendMessage(sender, "world-management.world-entry", "WORLD" to it) }
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String> {
-        if (!sender.hasPermission(getPermission("permissions.admin", "flys.admin"))) {
-            return emptyList()
-        }
+        if (!hasPermission(sender, "permissions.admin", "flys.admin")) return emptyList()
 
         return when (args.size) {
-            1 -> {
-                listOf("addworld", "removeworld", "listworlds")
-                    .filter { it.lowercase().startsWith(args[0].lowercase()) }
-                    .sorted()
+            1 -> subCommands.startingWith(args[0]).sorted()
+            2 -> if (args[0].lowercase() in listOf("addworld", "removeworld")) {
+                plugin.server.worlds.map { it.name }.startingWith(args[1]).sorted()
+            } else {
+                emptyList()
             }
-            2 -> {
-                if (args[0].lowercase() in listOf("addworld", "removeworld")) {
-                    Bukkit.getWorlds()
-                        .map { it.name }
-                        .filter { it.lowercase().startsWith(args[1].lowercase()) }
-                        .sorted()
-                } else {
-                    emptyList()
-                }
-            }
-            3 -> {
-                if (args[0].lowercase() == "addworld") {
-                    listOf("allowed", "disallowed")
-                        .filter { it.lowercase().startsWith(args[2].lowercase()) }
-                } else {
-                    emptyList()
-                }
-            }
+            3 -> if (args[0].lowercase() == "addworld") listTypes.startingWith(args[2]) else emptyList()
             else -> emptyList()
         }
     }
 }
-

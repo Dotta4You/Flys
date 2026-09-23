@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.3
+ * Fly's Plugin v1.4
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -27,41 +27,19 @@ class PlaceholderAPIHook(private val plugin: Flys) : PlaceholderExpansion() {
     override fun onPlaceholderRequest(player: Player?, params: String): String? {
         if (player == null) return null
 
+        val flying = plugin.flightManager.hasFlightEnabled(player)
+        val worldAllowed by lazy { plugin.flightManager.isFlightAllowedInWorld(player.world.name) }
+
         return when (params.lowercase()) {
-            "flying" -> {
-                if (plugin.flightManager.hasFlightEnabled(player)) "true" else "false"
-            }
-            "flying_status" -> {
-                if (plugin.flightManager.hasFlightEnabled(player)) "Enabled" else "Disabled"
-            }
-            "flying_symbol" -> {
-                if (plugin.flightManager.hasFlightEnabled(player)) "✔" else "✘"
-            }
-            "speed" -> {
-                if (plugin.flightManager.hasFlightEnabled(player)) {
-                    ((player.flySpeed * 10).toInt()).toString()
-                } else {
-                    "0"
-                }
-            }
-            "speed_percent" -> {
-                if (plugin.flightManager.hasFlightEnabled(player)) {
-                    "${(player.flySpeed * 100).toInt()}%"
-                } else {
-                    "0%"
-                }
-            }
-            "world_allowed" -> {
-                if (plugin.flightManager.isFlightAllowedInWorld(player.world.name)) "true" else "false"
-            }
-            "world_status" -> {
-                if (plugin.flightManager.isFlightAllowedInWorld(player.world.name)) "Allowed" else "Disabled"
-            }
-            "total_flying" -> {
-                plugin.flightManager.getFlyingPlayers().size.toString()
-            }
+            "flying" -> flying.toString()
+            "flying_status" -> if (flying) "Enabled" else "Disabled"
+            "flying_symbol" -> if (flying) "✔" else "✘"
+            "speed" -> if (flying) (player.flySpeed * 10).toInt().toString() else "0"
+            "speed_percent" -> if (flying) "${(player.flySpeed * 100).toInt()}%" else "0%"
+            "world_allowed" -> worldAllowed.toString()
+            "world_status" -> if (worldAllowed) "Allowed" else "Disabled"
+            "total_flying" -> plugin.flightManager.getFlyingPlayerCount().toString()
             else -> null
         }
     }
 }
-

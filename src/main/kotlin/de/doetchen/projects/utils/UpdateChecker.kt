@@ -1,127 +1,102 @@
 /*
  * ==========================================
- * Fly's Plugin v1.3
+ * Fly's Plugin v1.4
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
  */
+
 package de.doetchen.projects.utils
 
+import com.google.gson.JsonParser
 import de.doetchen.projects.Flys
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URI
-import java.util.concurrent.CompletableFuture
 
 class UpdateChecker(private val plugin: Flys) : Listener {
 
+    @Volatile
     private var latestVersion: String? = null
+
+    @Volatile
     private var updateAvailable = false
+
+    @Volatile
     private var lastCheck = 0L
 
-    companion object {
-        private const val GITHUB_API_URL = "https://api.github.com/repos/Dotta4You/Flys/releases/latest"
-        private const val CHECK_INTERVAL = 3600000L
-        private const val UPDATE_PERMISSION = "flys.updatenotify"
-    }
+    private fun checkForUpdates(): Boolean {
+        if (System.currentTimeMillis() - lastCheck < CHECK_INTERVAL) return updateAvailable
 
-    fun checkForUpdates(): CompletableFuture<Boolean> {
-        return CompletableFuture.supplyAsync {
-            try {
-                if (System.currentTimeMillis() - lastCheck < CHECK_INTERVAL) {
-                    return@supplyAsync updateAvailable
-                }
+        val connection = URI.create(GITHUB_API_URL).toURL().openConnection() as HttpURLConnection
+        try {
+            connection.requestMethod = "GET"
+            connection.connectTimeout = TIMEOUT
+            connection.readTimeout = TIMEOUT
+            connection.setRequestProperty("User-Agent", "Flys-Plugin-UpdateChecker")
 
-                val url = URI.create(GITHUB_API_URL).toURL()
-                val connection = url.openConnection() as HttpURLConnection
-                connection.requestMethod = "GET"
-                connection.connectTimeout = 5000
-                connection.readTimeout = 5000
-                connection.setRequestProperty("User-Agent", "Flys-Plugin-UpdateChecker")
+            if (connection.responseCode != 200) return false
 
-                if (connection.responseCode == 200) {
-                    val response = BufferedReader(InputStreamReader(connection.inputStream)).use { it.readText() }
+            val body = connection.inputStream.bufferedReader().use { it.readText() }
+            val tag = JsonParser.parseString(body).asJsonObject.get("tag_name")?.asString ?: return false
 
-                    val tagNameStart = response.indexOf("\"tag_name\":\"") + 12
-                    if (tagNameStart > 11) {
-                        val tagNameEnd = response.indexOf("\"", tagNameStart)
-                        if (tagNameEnd != -1) {
-                            latestVersion = response.substring(tagNameStart, tagNameEnd)
+            val currentVersion = plugin.description.version
+            latestVersion = tag
+            updateAvailable = isNewerVersion(tag, currentVersion)
+            lastCheck = System.currentTimeMillis()
 
-                            val currentVersion = plugin.description.version
-                            updateAvailable = isNewerVersion(latestVersion!!, currentVersion)
-                            lastCheck = System.currentTimeMillis()
-
-                            if (updateAvailable) {
-                                plugin.logger.info("Update available! Current: v$currentVersion, Latest: v$latestVersion")
-                            }
-
-                            return@supplyAsync updateAvailable
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                plugin.logger.warning("Could not check for updates: ${e.message}")
+            if (updateAvailable) {
+                plugin.logger.info("Update available! Current: v$currentVersion, Latest: v$tag")
             }
-            false
+            return updateAvailable
+        } catch (e: Exception) {
+            plugin.logger.warning("Could not check for updates: ${e.message}")
+            return false
+        } finally {
+            connection.disconnect()
         }
     }
 
     private fun isNewerVersion(latest: String, current: String): Boolean {
-        return try {
-            val latestParts = latest.removePrefix("v").split(".")
-            val currentParts = current.removePrefix("v").split(".")
+        val latestParts = latest.removePrefix("v").split(".")
+        val currentParts = current.removePrefix("v").split(".")
 
-            for (i in 0 until maxOf(latestParts.size, currentParts.size)) {
-                val latestPart = latestParts.getOrNull(i)?.toIntOrNull() ?: 0
-                val currentPart = currentParts.getOrNull(i)?.toIntOrNull() ?: 0
+        for (i in 0 until maxOf(latestParts.size, currentParts.size)) {
+            val latestPart = latestParts.getOrNull(i)?.toIntOrNull() ?: 0
+            val currentPart = currentParts.getOrNull(i)?.toIntOrNull() ?: 0
 
-                when {
-                    latestPart > currentPart -> return true
-                    latestPart < currentPart -> return false
-                }
-            }
-            false
-        } catch (_: Exception) {
-            false
+            if (latestPart != currentPart) return latestPart > currentPart
         }
+        return false
     }
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
+        if (!plugin.configManager.getBoolean("update-checker.enabled")) return
+
         val player = event.player
+        if (!(player.isOp || player.hasPermission(UPDATE_PERMISSION) || player.hasPermission("*"))) return
 
-        if (!plugin.configManager.getBoolean("update-checker.enabled")) {
-            return
-        }
-
-        if (player.isOp || player.hasPermission(UPDATE_PERMISSION) || player.hasPermission("*")) {
-            Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, Runnable {
-                checkForUpdates().thenAccept { hasUpdate ->
-                    if (hasUpdate) {
-                        Bukkit.getScheduler().runTask(plugin, Runnable {
-                            sendUpdateNotification(player)
-                        })
-                    }
-                }
-            }, 40L)
-        }
+        plugin.server.scheduler.runTaskLaterAsynchronously(plugin, Runnable {
+            if (checkForUpdates()) {
+                plugin.server.scheduler.runTask(plugin, Runnable {
+                    if (player.isOnline) sendUpdateNotification(player)
+                })
+            }
+        }, 40L)
     }
 
     private fun sendUpdateNotification(player: Player) {
-        val currentVersion = plugin.description.version
+        val messages = plugin.messageUtils
 
         player.sendMessage("")
-        plugin.messageUtils.sendMessage(player, "update.available")
-        plugin.messageUtils.sendMessage(player, "update.current-version", "VERSION" to currentVersion)
-        plugin.messageUtils.sendMessage(player, "update.latest-version", "VERSION" to (latestVersion ?: "Unknown"))
-        plugin.messageUtils.sendMessage(player, "update.download")
+        messages.sendMessage(player, "update.available")
+        messages.sendMessage(player, "update.current-version", "VERSION" to plugin.description.version)
+        messages.sendMessage(player, "update.latest-version", "VERSION" to (latestVersion ?: "Unknown"))
+        messages.sendMessage(player, "update.download")
         player.sendMessage("")
 
         if (plugin.configManager.getBoolean("general.enable-sounds")) {
@@ -130,12 +105,15 @@ class UpdateChecker(private val plugin: Flys) : Listener {
     }
 
     fun performInitialCheck() {
-        if (!plugin.configManager.getBoolean("update-checker.enabled")) {
-            return
-        }
+        if (!plugin.configManager.getBoolean("update-checker.enabled")) return
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
-            checkForUpdates()
-        })
+        plugin.server.scheduler.runTaskAsynchronously(plugin, Runnable { checkForUpdates() })
+    }
+
+    private companion object {
+        const val GITHUB_API_URL = "https://api.github.com/repos/Dotta4You/Flys/releases/latest"
+        const val CHECK_INTERVAL = 3_600_000L
+        const val TIMEOUT = 5000
+        const val UPDATE_PERMISSION = "flys.updatenotify"
     }
 }
