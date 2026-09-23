@@ -12,7 +12,8 @@
     "no-permission": "&c✘ Du hast keine Berechtigung für diesen Befehl!",
     "player-not-found": "&c✘ Spieler &e{PLAYER} &cwurde nicht gefunden!",
     "usage": "&e&lℹ &eVerwendung: &f/fly [spieler]",
-    "world-not-allowed": "&c✘ Fliegen ist in dieser Welt nicht erlaubt!"
+    "world-not-allowed": "&c✘ Fliegen ist in dieser Welt nicht erlaubt!",
+    "native-flight": "&c✘ Fliegen kann im Kreativ- oder Zuschauermodus nicht umgeschaltet werden!"
   },
   "flyspeed": {
     "current": "&e&lℹ &eAktuelle Fluggeschwindigkeit: &b{SPEED}&e/10",

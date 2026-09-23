@@ -13,7 +13,8 @@
     "no-permission": "&c✘ Vous n'avez pas la permission pour cette commande !",
     "player-not-found": "&c✘ Joueur &e{PLAYER} &cintrouvable !",
     "usage": "&e&lℹ &eUtilisation : &f/fly [joueur]",
-    "world-not-allowed": "&c✘ Le vol n'est pas autorisé dans ce monde !"
+    "world-not-allowed": "&c✘ Le vol n'est pas autorisé dans ce monde !",
+    "native-flight": "&c✘ Le vol ne peut pas être basculé en mode Créatif ou Spectateur !"
   },
   "flyspeed": {
     "current": "&e&lℹ &eVitesse de vol actuelle : &b{SPEED}&e/10",

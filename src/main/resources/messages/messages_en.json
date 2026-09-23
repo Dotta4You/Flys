@@ -12,7 +12,8 @@
     "no-permission": "&c✘ You don't have permission for this command!",
     "player-not-found": "&c✘ Player &e{PLAYER} &cwas not found!",
     "usage": "&e&lℹ &eUsage: &f/fly [player]",
-    "world-not-allowed": "&c✘ Flying is not allowed in this world!"
+    "world-not-allowed": "&c✘ Flying is not allowed in this world!",
+    "native-flight": "&c✘ Flying can't be toggled in Creative or Spectator mode!"
   },
   "flyspeed": {
     "current": "&e&lℹ &eCurrent flight speed: &b{SPEED}&e/10",

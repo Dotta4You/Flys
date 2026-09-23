@@ -44,7 +44,12 @@ class FlyCommand(plugin: Flys) : BaseCommand(plugin) {
     }
 
     private fun toggleFlight(sender: Player, target: Player) {
-        val wasFlying = plugin.flightManager.hasFlightEnabled(target)
+        if (plugin.flightManager.hasNativeFlight(target)) {
+            plugin.messageUtils.sendMessage(sender, "errors.native-flight")
+            return
+        }
+
+        val wasFlying = plugin.flightManager.hasActiveFlight(target)
         val enabled = plugin.flightManager.toggleFlight(target)
         if (!wasFlying && !enabled) return
 

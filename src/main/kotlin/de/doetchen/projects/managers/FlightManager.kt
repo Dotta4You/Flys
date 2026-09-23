@@ -50,9 +50,12 @@ class FlightManager(private val plugin: Flys) : Listener {
 
     fun hasFlightEnabled(player: Player): Boolean = player.uniqueId in flyingPlayers
 
+    fun hasActiveFlight(player: Player): Boolean =
+        hasFlightEnabled(player) || (!hasNativeFlight(player) && player.allowFlight)
+
     fun canAdjustSpeed(player: Player): Boolean = hasFlightEnabled(player) || hasNativeFlight(player)
 
-    private fun hasNativeFlight(player: Player): Boolean =
+    fun hasNativeFlight(player: Player): Boolean =
         player.gameMode == GameMode.CREATIVE || player.gameMode == GameMode.SPECTATOR
 
     private fun defaultSpeed(): Float =
@@ -62,7 +65,7 @@ class FlightManager(private val plugin: Flys) : Listener {
         player.persistentDataContainer.get(speedKey, PersistentDataType.FLOAT)
 
     fun toggleFlight(player: Player): Boolean {
-        if (hasFlightEnabled(player)) {
+        if (hasActiveFlight(player)) {
             disableFlight(player)
             return false
         }
