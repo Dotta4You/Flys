@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.4
+ * Fly's Plugin v1.4.1
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -51,7 +51,7 @@ class FlySpeedCommand(plugin: Flys) : BaseCommand(plugin) {
             return
         }
 
-        if (!plugin.flightManager.hasFlightEnabled(player)) {
+        if (!plugin.flightManager.canAdjustSpeed(player)) {
             plugin.messageUtils.sendMessage(player, "flyspeed.flight-not-enabled")
             playSound(player, "block.note_block.bass", 1.0f, 0.5f)
             return
@@ -77,7 +77,7 @@ class FlySpeedCommand(plugin: Flys) : BaseCommand(plugin) {
             return
         }
 
-        if (!plugin.flightManager.hasFlightEnabled(target)) {
+        if (!plugin.flightManager.canAdjustSpeed(target)) {
             plugin.messageUtils.sendMessage(sender, "flyspeed.target-flight-not-enabled", "PLAYER" to target.name)
             return
         }

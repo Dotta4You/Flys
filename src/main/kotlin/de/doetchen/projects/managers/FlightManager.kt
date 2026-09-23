@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.4
+ * Fly's Plugin v1.4.1
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -10,17 +10,20 @@ package de.doetchen.projects.managers
 
 import de.doetchen.projects.Flys
 import org.bukkit.GameMode
+import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerGameModeChangeEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.persistence.PersistentDataType
 import java.util.UUID
 
 class FlightManager(private val plugin: Flys) : Listener {
 
     private val flyingPlayers = mutableSetOf<UUID>()
+    private val speedKey = NamespacedKey(plugin, "fly_speed")
 
     fun enableFlight(player: Player): Boolean {
         if (!isFlightAllowedInWorld(player.world.name)) {
@@ -32,19 +35,31 @@ class FlightManager(private val plugin: Flys) : Listener {
         player.isFlying = true
         flyingPlayers.add(player.uniqueId)
 
-        val speed = plugin.configManager.getDouble("general.flight-speed.default-speed", 0.1).toFloat()
-        player.flySpeed = speed.coerceIn(0.0f, 1.0f)
+        player.flySpeed = (savedSpeed(player) ?: defaultSpeed()).coerceIn(0.0f, 1.0f)
 
         return true
     }
 
     fun disableFlight(player: Player) {
-        player.allowFlight = false
-        player.isFlying = false
+        if (!hasNativeFlight(player)) {
+            player.allowFlight = false
+            player.isFlying = false
+        }
         flyingPlayers.remove(player.uniqueId)
     }
 
     fun hasFlightEnabled(player: Player): Boolean = player.uniqueId in flyingPlayers
+
+    fun canAdjustSpeed(player: Player): Boolean = hasFlightEnabled(player) || hasNativeFlight(player)
+
+    private fun hasNativeFlight(player: Player): Boolean =
+        player.gameMode == GameMode.CREATIVE || player.gameMode == GameMode.SPECTATOR
+
+    private fun defaultSpeed(): Float =
+        plugin.configManager.getDouble("general.flight-speed.default-speed", 0.1).toFloat()
+
+    private fun savedSpeed(player: Player): Float? =
+        player.persistentDataContainer.get(speedKey, PersistentDataType.FLOAT)
 
     fun toggleFlight(player: Player): Boolean {
         if (hasFlightEnabled(player)) {
@@ -63,9 +78,9 @@ class FlightManager(private val plugin: Flys) : Listener {
     fun onGameModeChange(event: PlayerGameModeChangeEvent) {
         val player = event.player
 
-        when (event.newGameMode) {
-            GameMode.CREATIVE, GameMode.SPECTATOR -> flyingPlayers.remove(player.uniqueId)
-            GameMode.SURVIVAL, GameMode.ADVENTURE -> if (hasFlightEnabled(player)) restoreAllowFlightNextTick(player)
+        val mode = event.newGameMode
+        if ((mode == GameMode.SURVIVAL || mode == GameMode.ADVENTURE) && hasFlightEnabled(player)) {
+            restoreAllowFlightNextTick(player)
         }
     }
 
@@ -95,10 +110,12 @@ class FlightManager(private val plugin: Flys) : Listener {
     }
 
     fun setFlightSpeed(player: Player, speed: Float): Boolean {
-        if (!hasFlightEnabled(player)) return false
+        if (!canAdjustSpeed(player)) return false
 
         val maxSpeed = plugin.configManager.getDouble("general.flight-speed.max-speed", 1.0).toFloat()
-        player.flySpeed = speed.coerceIn(0.0f, maxSpeed)
+        val clampedSpeed = speed.coerceIn(0.0f, maxSpeed)
+        player.flySpeed = clampedSpeed
+        player.persistentDataContainer.set(speedKey, PersistentDataType.FLOAT, clampedSpeed)
         return true
     }
 
