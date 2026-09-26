@@ -53,7 +53,7 @@ class FlightManager(private val plugin: Flys) : Listener {
     fun hasActiveFlight(player: Player): Boolean =
         hasFlightEnabled(player) || (!hasNativeFlight(player) && player.allowFlight)
 
-    fun canAdjustSpeed(player: Player): Boolean = hasActiveFlight(player) || hasNativeFlight(player)
+    fun canAdjustSpeed(player: Player): Boolean = hasFlightEnabled(player) || hasNativeFlight(player)
 
     fun hasNativeFlight(player: Player): Boolean =
         player.gameMode == GameMode.CREATIVE || player.gameMode == GameMode.SPECTATOR
