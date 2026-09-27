@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.4.2
+ * Fly's Plugin v1.4.3
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -107,6 +107,6 @@ class Flys : JavaPlugin() {
     }
 
     private companion object {
-        const val BSTATS_ID = 24086
+        const val BSTATS_ID = 27336
     }
 }

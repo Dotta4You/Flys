@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.4.2
+ * Fly's Plugin v1.4.3
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -27,7 +27,7 @@ class PlaceholderAPIHook(private val plugin: Flys) : PlaceholderExpansion() {
     override fun onPlaceholderRequest(player: Player?, params: String): String? {
         if (player == null) return null
 
-        val flying = plugin.flightManager.hasFlightEnabled(player)
+        val flying = plugin.flightManager.hasActiveFlight(player)
         val worldAllowed by lazy { plugin.flightManager.isFlightAllowedInWorld(player.world.name) }
 
         return when (params.lowercase()) {

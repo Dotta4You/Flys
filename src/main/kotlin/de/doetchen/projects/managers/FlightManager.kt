@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.4.2
+ * Fly's Plugin v1.4.3
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -35,7 +35,7 @@ class FlightManager(private val plugin: Flys) : Listener {
         player.isFlying = true
         flyingPlayers.add(player.uniqueId)
 
-        player.flySpeed = (savedSpeed(player) ?: defaultSpeed()).coerceIn(0.0f, 1.0f)
+        player.flySpeed = (savedSpeed(player) ?: defaultSpeed()).coerceIn(0.0f, maxSpeed())
 
         return true
     }
@@ -60,6 +60,9 @@ class FlightManager(private val plugin: Flys) : Listener {
 
     private fun defaultSpeed(): Float =
         plugin.configManager.getDouble("general.flight-speed.default-speed", 0.1).toFloat()
+
+    private fun maxSpeed(): Float =
+        plugin.configManager.getDouble("general.flight-speed.max-speed", 1.0).toFloat()
 
     private fun savedSpeed(player: Player): Float? =
         player.persistentDataContainer.get(speedKey, PersistentDataType.FLOAT)
@@ -115,8 +118,7 @@ class FlightManager(private val plugin: Flys) : Listener {
     fun setFlightSpeed(player: Player, speed: Float): Boolean {
         if (!canAdjustSpeed(player)) return false
 
-        val maxSpeed = plugin.configManager.getDouble("general.flight-speed.max-speed", 1.0).toFloat()
-        val clampedSpeed = speed.coerceIn(0.0f, maxSpeed)
+        val clampedSpeed = speed.coerceIn(0.0f, maxSpeed())
         player.flySpeed = clampedSpeed
         player.persistentDataContainer.set(speedKey, PersistentDataType.FLOAT, clampedSpeed)
         return true

@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.4.2
+ * Fly's Plugin v1.4.3
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -46,7 +46,6 @@ class UpdateChecker(private val plugin: Flys) : Listener {
             val currentVersion = plugin.description.version
             latestVersion = tag
             updateAvailable = isNewerVersion(tag, currentVersion)
-            lastCheck = System.currentTimeMillis()
 
             if (updateAvailable) {
                 plugin.logger.info("Update available! Current: v$currentVersion, Latest: v$tag")
@@ -56,6 +55,7 @@ class UpdateChecker(private val plugin: Flys) : Listener {
             plugin.logger.warning("Could not check for updates: ${e.message}")
             return false
         } finally {
+            lastCheck = System.currentTimeMillis()
             connection.disconnect()
         }
     }
