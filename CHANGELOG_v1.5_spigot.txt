@@ -49,7 +49,7 @@ Translations
 
 BUG FIXES
 
-- Flight is applied again after respawning
+- Flight is no longer lost after dying and respawning
 - /flyspeed above the allowed maximum now shows an error with the maximum instead of silently using a lower value
 - A max-speed above 1.0 in the config no longer causes errors
 - When /fly <player> is blocked for someone else (world or combat), the message now goes to the player who used the command
