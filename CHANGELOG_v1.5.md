@@ -1,73 +1,71 @@
-# 🚀 Flys v1.5 - Timed Flight & Control Update
+# ✨ Fly's v1.5 - Timed Flight & Control Update
 
-> **Release Date:** October 2026  
-> **Type:** Feature Update + Bug Fixes
+#### The Timed Flight, Combat Rule & Rank Speed Limits Update
 
-Combat rule, fall protection and flight restore are **off by default** - with the default config, Fly's plays like before. Your existing config and language files are updated automatically, your own settings are never changed.
+## 🎯 Highlights
+
+This version brings you **timed flight** with a countdown, an optional **combat rule**, **fall protection** and **speed limits per rank**.
+
+Everything that changes gameplay is **off by default** - with the default config, Fly's plays like before. Your config and language files are updated automatically, your own settings are never changed.
 
 ---
 
-## ✨ What's New
+## 🆕 New Features
 
-### ⏱️ **Timed Flight**
-- **NEW:** `/fly <player> <time>` gives flight for a limited time
-- Time formats: `30s`, `10m`, `2h`, `1d` or combined like `1h30m`
+### ⏱️ Timed Flight
+- **`/fly <player> <time>`** gives flight for a limited time (e.g. `30s`, `10m`, `2h`, `1d` or `1h30m`)
 - Warning in the action bar before it ends: at 30s, at 10s and every second from 5s
 - The time keeps running while the player is offline
 - Switching flight off with `/fly` ends it early
 - Permission: `flys.fly.temp`
-- Config: `extras.timed-flight-max-seconds` (longest allowed time, default: 7 days)
 
-### ⚔️ **Combat Rule** *(off by default)*
-- **NEW:** Flight is disabled when a player deals or takes PvP damage
+### ⚔️ Combat Rule *(off by default)*
+- Flight is disabled when a player deals or takes PvP damage
 - Flying again is blocked until the cooldown has passed
 - Permission `flys.bypass.combat` skips the rule
-- Config: `extras.combat.disable-flight` and `extras.combat.cooldown-seconds`
 
-### 🪂 **Fall Protection** *(off by default)*
-- **NEW:** No fall damage after flight was switched off in mid-air
+### 🪂 Fall Protection *(off by default)*
+- No fall damage after flight was switched off in mid-air
 - Ends with the first prevented fall damage or as soon as the player lands
-- Config: `extras.fall-protection`
 
-### 💾 **Flight Restore** *(off by default)*
-- **NEW:** Players get their flight back when they rejoin
+### 💾 Flight Restore *(off by default)*
+- Players get their flight back when they rejoin
 - Fly permission, world restrictions and combat rule still apply
-- Config: `extras.restore-flight-on-join`
 
-### 🎚️ **Speed Limits per Rank**
-- **NEW:** `flys.maxspeed.<1-10>` limits the flight speed of a player (the highest level wins)
+### 🎚️ Speed Limits per Rank
+- `flys.maxspeed.<1-10>` limits the flight speed of a player (the highest level wins)
 - `general.flight-speed.max-speed` stays the limit for everyone
 - Players without these permissions are not affected
 
-### 🧩 **New PlaceholderAPI Placeholders**
+### 🏷️ New Placeholders
 - `%flys_speed_max%` - highest speed level the player can use
-- `%flys_timed%` - whether the player has timed flight
-- `%flys_time_left%` and `%flys_time_left_seconds%` - remaining time of timed flight
+- `%flys_timed%`, `%flys_time_left%` and `%flys_time_left_seconds%` - timed flight
 - `%flys_in_combat%` and `%flys_combat_time_left%` - combat state
 
-### 🌍 **Translations**
-- All new messages are available in 🇬🇧 EN, 🇩🇪 DE, 🇪🇸 ES, 🇫🇷 FR, 🇷🇺 RU and 🇵🇱 PL
+###### *All new messages are available in 🇬🇧 EN, 🇩🇪 DE, 🇪🇸 ES, 🇫🇷 FR, 🇷🇺 RU and 🇵🇱 PL.*
+
+---
+
+## 🔧 Improvements
+
+- **Automatic config update**: new options and messages are added to your `config.yml` and `messages_*.json` on startup. Your own values and edited texts stay as they are, a backup is saved as `.bak` file
+- A broken `config.yml` or language file is never overwritten - the plugin keeps running and logs what to fix
+- Tab completion for `/flyspeed` only suggests speeds the player may use
 
 ---
 
 ## 🐛 Bug Fixes
 
-- Flight is applied again after respawning
+- Flight is no longer lost after dying and respawning
 - `/flyspeed` above the allowed maximum now shows an error with the maximum instead of silently using a lower value
 - A `max-speed` above `1.0` in the config no longer causes errors
 - When `/fly <player>` is blocked for someone else (world or combat), the message now goes to the player who used the command
 
 ---
 
-## 🔧 Improvements
+## 💡 For Server Admins
 
-- **Automatic config update:** new options and messages are added to your existing `config.yml` and `messages_*.json` on startup. Your own values and edited texts stay as they are, a backup is saved as `.bak` file
-- A broken `config.yml` or language file is never overwritten - the plugin keeps running and logs what to fix
-- Tab completion for `/flyspeed` only suggests speeds the player may use
-
----
-
-## 🛠️ New Config Options
+Just update and restart - no manual config changes needed. The new options are added under `extras` in your `config.yml`:
 
 ```yaml
 extras:
@@ -79,16 +77,23 @@ extras:
     cooldown-seconds: 10
 ```
 
-## 🔐 New Permissions
-
 | Permission | Description |
 |------------|-------------|
 | `flys.fly.temp` | Use `/fly <player> <time>` |
 | `flys.bypass.combat` | Never blocked by the combat rule |
 | `flys.maxspeed.<1-10>` | Limits the maximum flight speed to that level |
 
+Perfect for:
+- Rewards and events with timed flight
+- PvP servers with the combat rule
+- Different flight speeds per rank
+
 ---
 
-## 💬 Feedback
+## 🐛 Found Issues? 
 
-Found a bug or have an idea? Open an issue on [GitHub](https://github.com/Dotta4You/Flys/issues) or join the [Discord](https://discord.gg/PfQTqhfjgA).
+If you find bugs or have suggestions, feel free to report them on the [GitHub Issue Tracker](https://github.com/Dotta4You/Flys/issues)! 
+
+---
+
+**Happy flying! 🚀**
