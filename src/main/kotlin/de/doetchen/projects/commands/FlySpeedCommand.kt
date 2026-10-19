@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.4.3
+ * Fly's Plugin v1.5
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -39,7 +39,7 @@ class FlySpeedCommand(plugin: Flys) : BaseCommand(plugin) {
     private fun parseSpeed(input: String): Int? = input.toIntOrNull()?.takeIf { it in 1..10 }
 
     private fun showSpeed(player: Player) {
-        val currentSpeed = (player.flySpeed * 10).toInt()
+        val currentSpeed = plugin.flightManager.speedLevelOf(player)
         plugin.messageUtils.sendMessage(player, "flyspeed.current", "SPEED" to currentSpeed.toString())
         playSound(player, "block.note_block.harp", 0.5f, 1.2f)
     }
@@ -53,6 +53,13 @@ class FlySpeedCommand(plugin: Flys) : BaseCommand(plugin) {
 
         if (!plugin.flightManager.canAdjustSpeed(player)) {
             plugin.messageUtils.sendMessage(player, "flyspeed.flight-not-enabled")
+            playSound(player, "block.note_block.bass", 1.0f, 0.5f)
+            return
+        }
+
+        val highestLevel = plugin.flightManager.maxSpeedLevelFor(player)
+        if (speed > highestLevel) {
+            plugin.messageUtils.sendMessage(player, "flyspeed.above-limit", "MAX" to highestLevel.toString())
             playSound(player, "block.note_block.bass", 1.0f, 0.5f)
             return
         }
@@ -82,6 +89,15 @@ class FlySpeedCommand(plugin: Flys) : BaseCommand(plugin) {
             return
         }
 
+        val highestLevel = plugin.flightManager.maxSpeedLevelFor(target)
+        if (speed > highestLevel) {
+            plugin.messageUtils.sendMessage(
+                sender, "flyspeed.target-above-limit",
+                "PLAYER" to target.name, "MAX" to highestLevel.toString()
+            )
+            return
+        }
+
         plugin.flightManager.setFlightSpeed(target, speed / 10.0f)
         plugin.messageUtils.sendMessage(sender, "flyspeed.set-other", "PLAYER" to target.name, "SPEED" to speed.toString())
         plugin.messageUtils.sendMessage(target, "flyspeed.set-by-other", "SENDER" to sender.name, "SPEED" to speed.toString())
@@ -92,12 +108,17 @@ class FlySpeedCommand(plugin: Flys) : BaseCommand(plugin) {
         if (!hasPermission(sender, "permissions.flyspeed", "flys.flyspeed")) return emptyList()
 
         val canTargetOthers = hasPermission(sender, "permissions.flyspeed-others", "flys.flyspeed.others")
+        val ownSpeedOptions = if (sender is Player) {
+            speedOptions.take(plugin.flightManager.maxSpeedLevelFor(sender))
+        } else {
+            speedOptions
+        }
 
         return when (args.size) {
             1 -> if (canTargetOthers) {
-                (speedOptions + onlinePlayerNames()).startingWith(args[0]).sorted()
+                (ownSpeedOptions + onlinePlayerNames()).startingWith(args[0]).sorted()
             } else {
-                speedOptions.startingWith(args[0])
+                ownSpeedOptions.startingWith(args[0])
             }
             2 -> if (canTargetOthers) speedOptions.startingWith(args[1]) else emptyList()
             else -> emptyList()

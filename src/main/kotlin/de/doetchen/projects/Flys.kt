@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.4.3
+ * Fly's Plugin v1.5
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -14,8 +14,11 @@ import de.doetchen.projects.commands.FlyReloadCommand
 import de.doetchen.projects.commands.FlySpeedCommand
 import de.doetchen.projects.commands.FlysCommand
 import de.doetchen.projects.hooks.PlaceholderAPIHook
+import de.doetchen.projects.managers.CombatManager
 import de.doetchen.projects.managers.ConfigManager
+import de.doetchen.projects.managers.FallProtectionManager
 import de.doetchen.projects.managers.FlightManager
+import de.doetchen.projects.managers.TimedFlightManager
 import de.doetchen.projects.utils.MessageUtils
 import de.doetchen.projects.utils.UpdateChecker
 import org.bstats.bukkit.Metrics
@@ -33,6 +36,15 @@ class Flys : JavaPlugin() {
     lateinit var flightManager: FlightManager
         private set
 
+    lateinit var combatManager: CombatManager
+        private set
+
+    lateinit var fallProtectionManager: FallProtectionManager
+        private set
+
+    lateinit var timedFlightManager: TimedFlightManager
+        private set
+
     private lateinit var updateChecker: UpdateChecker
     private var metrics: Metrics? = null
 
@@ -41,11 +53,22 @@ class Flys : JavaPlugin() {
         configManager.initialize()
 
         messageUtils = MessageUtils(this)
+        combatManager = CombatManager(this)
+        fallProtectionManager = FallProtectionManager(this)
+        timedFlightManager = TimedFlightManager(this)
         flightManager = FlightManager(this)
         updateChecker = UpdateChecker(this)
 
         server.pluginManager.registerEvents(flightManager, this)
+        server.pluginManager.registerEvents(combatManager, this)
+        server.pluginManager.registerEvents(fallProtectionManager, this)
+        server.pluginManager.registerEvents(timedFlightManager, this)
         server.pluginManager.registerEvents(updateChecker, this)
+
+        combatManager.startExpiryCleanup()
+        fallProtectionManager.startLandingWatcher()
+        timedFlightManager.startExpiryWatcher()
+        server.onlinePlayers.forEach { flightManager.restoreSavedFlight(it) }
 
         registerCommand("fly", FlyCommand(this))
         registerCommand("flys", FlysCommand(this))

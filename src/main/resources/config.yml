@@ -1,5 +1,5 @@
 # ===========================================
-# Fly's v1.4.3
+# Fly's v1.5
 # Made with <3 by Dötchen
 # My first Public Project :D
 # ===========================================
@@ -25,6 +25,9 @@ permissions:
   flyspeed: "flys.flyspeed"
   flyspeed-others: "flys.flyspeed.others"
   flyreload: "flys.flyreload"
+  fly-temp: "flys.fly.temp"
+  bypass-combat: "flys.bypass.combat"
+  flyspeed-limit: "flys.maxspeed"
 
 # General settings
 general:
@@ -42,3 +45,16 @@ worlds:
   # List of worlds where flying is disabled
   # Example: ["pvp_world", "hardcore", "minigames"]
   disabled-worlds: []
+
+# Extra features
+extras:
+  # No fall damage after flight is switched off in mid-air
+  fall-protection: false
+  # Gives players their flight back when they rejoin
+  restore-flight-on-join: false
+  # Longest time for /fly <player> <time> in seconds (default: 7 days)
+  timed-flight-max-seconds: 604800
+  # Disables flight after PvP damage and blocks it until the cooldown has passed
+  combat:
+    disable-flight: false
+    cooldown-seconds: 10

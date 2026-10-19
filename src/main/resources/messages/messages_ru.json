@@ -6,15 +6,26 @@
     "enabled-other": "&a&l✔ &aПолёт включен для &e{PLAYER}&a!",
     "disabled-other": "&c&l✘ &cПолёт выключен для &e{PLAYER}&4!",
     "enabled-by-other": "&b&lПолёт был включен игроком &e{SENDER}",
-    "disabled-by-other": "&e&lПолёт был выключен игроком &e{SENDER}"
+    "disabled-by-other": "&e&lПолёт был выключен игроком &e{SENDER}",
+    "timed-enabled-self": "&a&l✔ Полёт включен &7(&e{TIME}&7)",
+    "timed-enabled-other": "&a&l✔ &aПолёт включен для &e{PLAYER} &aна &e{TIME}&a!",
+    "timed-enabled-by-other": "&b&lПолёт был включен игроком &e{SENDER} &7(&e{TIME}&7)",
+    "timed-expired": "&e&l⌛ Ваш временный полёт закончился",
+    "timed-warning": "&e&l⌛ Полёт закончится через &c&l{TIME}",
+    "combat-disabled": "&c&l✘ Полёт выключен – вы в бою"
   },
   "errors": {
     "player-only": "&c✘ Только игроки могут использовать эту команду!",
     "no-permission": "&c✘ У вас нет прав для этой команды!",
     "player-not-found": "&c✘ Игрок &e{PLAYER} &cне найден!",
-    "usage": "&e&lℹ &eИспользование: &f/fly [игрок]",
+    "usage": "&e&lℹ &eИспользование: &f/fly [игрок] [время]",
     "world-not-allowed": "&c✘ Полёт запрещен в этом мире!",
-    "native-flight": "&c✘ Полёт нельзя переключать в творческом режиме или режиме наблюдателя!"
+    "native-flight": "&c✘ Полёт нельзя переключать в творческом режиме или режиме наблюдателя!",
+    "in-combat": "&c✘ Нельзя летать во время боя! &7(осталось {TIME})",
+    "target-in-combat": "&c✘ Игрок &e{PLAYER} &cне может летать во время боя! &7(осталось {TIME})",
+    "target-world-not-allowed": "&c✘ Полёт запрещен в мире игрока &e{PLAYER}&c!",
+    "invalid-time": "&c✘ Неверное время! Используйте, например, &e30s&c, &e10m&c, &e2h&c, &e1d &cили &e1h30m&c.",
+    "time-too-long": "&c✘ Время не может превышать &e{MAX}&c!"
   },
   "flyspeed": {
     "current": "&e&lℹ &eТекущая скорость полёта: &b{SPEED}&e/10",
@@ -24,7 +35,9 @@
     "invalid-range": "&c✘ Неверная скорость! Используйте значения от 1 до 10.",
     "flight-not-enabled": "&c✘ Сначала нужно включить полёт!",
     "target-flight-not-enabled": "&c✘ У игрока &e{PLAYER} &cполёт не включен!",
-    "usage": "&e&lℹ &eИспользование: &f/flyspeed [1-10] &eили &f/flyspeed [игрок] [1-10]"
+    "usage": "&e&lℹ &eИспользование: &f/flyspeed [1-10] &eили &f/flyspeed [игрок] [1-10]",
+    "above-limit": "&c✘ Ваша максимальная скорость полёта: &b{MAX}&c/10!",
+    "target-above-limit": "&c✘ Максимальная скорость полёта игрока &e{PLAYER}&c: &b{MAX}&c/10!"
   },
   "reload": {
     "success": "&a&l+ &aКонфигурация успешно перезагружена!",

@@ -9,8 +9,8 @@ description: Fly's is yet another, but EXTREMELY Sexy fly plugin for Minecraft.
 softdepend: [PlaceholderAPI]
 commands:
   fly:
-    description: Toggle flight mode for yourself or other players
-    usage: /<command> [player]
+    description: Toggle flight mode for yourself or other players, optionally for a limited time
+    usage: /<command> [player] [time]
   flys:
     description: Manage world restrictions for flight
     usage: /<command> addworld <world> <allowed|disallowed> or /<command> removeworld <world> or /<command> listworlds
@@ -42,3 +42,39 @@ permissions:
   flys.updatenotify:
     description: Allows you to receive update notifications on join
     default: op
+  flys.fly.temp:
+    description: Allows you to give timed flight with /fly <player> <time>
+    default: op
+  flys.bypass.combat:
+    description: Never gets flight blocked by the combat cooldown
+    default: op
+  flys.maxspeed.1:
+    description: Limits the maximum flight speed to 1
+    default: false
+  flys.maxspeed.2:
+    description: Limits the maximum flight speed to 2
+    default: false
+  flys.maxspeed.3:
+    description: Limits the maximum flight speed to 3
+    default: false
+  flys.maxspeed.4:
+    description: Limits the maximum flight speed to 4
+    default: false
+  flys.maxspeed.5:
+    description: Limits the maximum flight speed to 5
+    default: false
+  flys.maxspeed.6:
+    description: Limits the maximum flight speed to 6
+    default: false
+  flys.maxspeed.7:
+    description: Limits the maximum flight speed to 7
+    default: false
+  flys.maxspeed.8:
+    description: Limits the maximum flight speed to 8
+    default: false
+  flys.maxspeed.9:
+    description: Limits the maximum flight speed to 9
+    default: false
+  flys.maxspeed.10:
+    description: Limits the maximum flight speed to 10
+    default: false
