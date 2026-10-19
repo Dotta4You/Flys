@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.4.3
+ * Fly's Plugin v1.5
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -14,12 +14,17 @@ import de.doetchen.projects.Flys
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
+import java.io.IOException
 import java.io.Reader
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 
 class ConfigManager(private val plugin: Flys) {
 
     private lateinit var config: FileConfiguration
     private lateinit var configFile: File
+    private var configReadable = true
+    private val languageFileMigrator = LanguageFileMigrator(plugin)
     private var messages: Map<String, String> = emptyMap()
     private var prefix = DEFAULT_PREFIX
 
@@ -54,18 +59,71 @@ class ConfigManager(private val plugin: Flys) {
     }
 
     private fun loadConfig() {
-        config = try {
-            configFile.reader(Charsets.UTF_8).use { YamlConfiguration.loadConfiguration(it) }
+        val loaded = YamlConfiguration()
+        configReadable = try {
+            configFile.reader(Charsets.UTF_8).use { loaded.load(it) }
+            true
         } catch (e: Exception) {
-            plugin.logger.severe("Failed to load config with UTF-8: ${e.message}")
-            plugin.config
+            plugin.logger.severe("Failed to read config.yml, using built-in defaults until it is fixed: ${e.message}")
+            false
         }
+        config = loaded
+
+        val bundled = readBundledConfig() ?: return
+        config.setDefaults(bundled)
+        if (configReadable) addMissingOptions(bundled)
+    }
+
+    private fun readBundledConfig(): YamlConfiguration? {
+        val stream = plugin.getResource("config.yml") ?: return null
+        return stream.reader(Charsets.UTF_8).use { YamlConfiguration.loadConfiguration(it) }
+    }
+
+    private fun addMissingOptions(bundled: YamlConfiguration) {
+        val missingPaths = bundled.getKeys(true).filterNot { config.contains(it, true) }
+        if (missingPaths.isEmpty()) return
+        if (!backUpConfigFile()) return
+
+        missingPaths.forEach { copyBundledValue(bundled, it) }
+        missingPaths.forEach { copyBundledComments(bundled, it) }
+
+        if (saveConfig()) {
+            val addedOptions = missingPaths.filterNot { bundled.isConfigurationSection(it) }
+            plugin.logger.info("Added ${addedOptions.size} new option(s) to config.yml: ${addedOptions.joinToString()}")
+        }
+    }
+
+    private fun copyBundledValue(bundled: YamlConfiguration, path: String) {
+        if (bundled.isConfigurationSection(path)) {
+            if (!config.isConfigurationSection(path)) config.createSection(path)
+        } else {
+            config.set(path, bundled.get(path))
+        }
+    }
+
+    private fun copyBundledComments(bundled: YamlConfiguration, path: String) {
+        config.setComments(path, bundled.getComments(path))
+        config.setInlineComments(path, bundled.getInlineComments(path))
+    }
+
+    private fun backUpConfigFile(): Boolean = try {
+        Files.copy(
+            configFile.toPath(),
+            File(plugin.dataFolder, CONFIG_BACKUP_NAME).toPath(),
+            StandardCopyOption.REPLACE_EXISTING
+        )
+        true
+    } catch (e: IOException) {
+        plugin.logger.warning("Could not back up config.yml, new options are not added to the file: ${e.message}")
+        false
     }
 
     private fun ensureLanguageFilesExist() {
         LANGUAGES.forEach { (code, name) ->
             val resourcePath = messagesResourcePath(code)
-            if (!File(plugin.dataFolder, resourcePath).exists()) {
+            if (File(plugin.dataFolder, resourcePath).exists()) {
+                languageFileMigrator.addMissingMessages(resourcePath)
+            } else {
                 plugin.logger.info("Creating $name messages file...")
                 plugin.saveResource(resourcePath, false)
             }
@@ -140,6 +198,10 @@ class ConfigManager(private val plugin: Flys) {
 
     fun getBoolean(path: String): Boolean = config.getBoolean(path)
 
+    fun getInt(path: String): Int = config.getInt(path)
+
+    fun getLong(path: String): Long = config.getLong(path)
+
     fun getDouble(path: String, defaultValue: Double = 0.0): Double = config.getDouble(path, defaultValue)
 
     fun getStringList(path: String): List<String> = config.getStringList(path)
@@ -149,17 +211,25 @@ class ConfigManager(private val plugin: Flys) {
         refreshWorldCache()
     }
 
-    fun saveConfig() {
-        try {
+    fun saveConfig(): Boolean {
+        if (!configReadable) {
+            plugin.logger.severe("config.yml could not be read, not saving to avoid overwriting it. Fix the file and use /flyreload.")
+            return false
+        }
+
+        return try {
             config.save(configFile)
             plugin.logger.info("Config saved successfully!")
+            true
         } catch (e: Exception) {
             plugin.logger.severe("Failed to save config: ${e.message}")
+            false
         }
     }
 
     private companion object {
         const val DEFAULT_PREFIX = "&8[&b&lFlys&8] "
+        const val CONFIG_BACKUP_NAME = "config.yml.bak"
 
         val LANGUAGES = linkedMapOf(
             "en" to "English",
@@ -174,7 +244,12 @@ class ConfigManager(private val plugin: Flys) {
             "flight.enabled-self",
             "flight.disabled-self",
             "flight.enabled-by-other",
-            "flight.disabled-by-other"
+            "flight.disabled-by-other",
+            "flight.timed-enabled-self",
+            "flight.timed-enabled-by-other",
+            "flight.timed-expired",
+            "flight.timed-warning",
+            "flight.combat-disabled"
         )
 
         fun messagesResourcePath(language: String) = "messages/messages_$language.json"

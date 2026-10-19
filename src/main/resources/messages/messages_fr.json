@@ -6,15 +6,26 @@
     "enabled-other": "&a&l✔ &aVol activé pour &e{PLAYER}&a !",
     "disabled-other": "&c&l✘ &cVol désactivé pour &e{PLAYER}&4 !",
     "enabled-by-other": "&b&lLe vol a été activé par &e{SENDER}",
-    "disabled-by-other": "&e&lLe vol a été désactivé par &e{SENDER}"
+    "disabled-by-other": "&e&lLe vol a été désactivé par &e{SENDER}",
+    "timed-enabled-self": "&a&l✔ Vol activé &7(&e{TIME}&7)",
+    "timed-enabled-other": "&a&l✔ &aVol activé pour &e{PLAYER} &apendant &e{TIME}&a !",
+    "timed-enabled-by-other": "&b&lLe vol a été activé par &e{SENDER} &7(&e{TIME}&7)",
+    "timed-expired": "&e&l⌛ Votre vol temporaire est terminé",
+    "timed-warning": "&e&l⌛ Le vol se termine dans &c&l{TIME}",
+    "combat-disabled": "&c&l✘ Vol désactivé : vous êtes en combat"
   },
   "errors": {
     "player-only": "&c✘ Seuls les joueurs peuvent utiliser cette commande !",
     "no-permission": "&c✘ Vous n'avez pas la permission pour cette commande !",
     "player-not-found": "&c✘ Joueur &e{PLAYER} &cintrouvable !",
-    "usage": "&e&lℹ &eUtilisation : &f/fly [joueur]",
+    "usage": "&e&lℹ &eUtilisation : &f/fly [joueur] [durée]",
     "world-not-allowed": "&c✘ Le vol n'est pas autorisé dans ce monde !",
-    "native-flight": "&c✘ Le vol ne peut pas être basculé en mode Créatif ou Spectateur !"
+    "native-flight": "&c✘ Le vol ne peut pas être basculé en mode Créatif ou Spectateur !",
+    "in-combat": "&c✘ Vous ne pouvez pas voler en combat ! &7({TIME} restant)",
+    "target-in-combat": "&c✘ &e{PLAYER} &cne peut pas voler en combat ! &7({TIME} restant)",
+    "target-world-not-allowed": "&c✘ Le vol n'est pas autorisé dans le monde de &e{PLAYER} &c!",
+    "invalid-time": "&c✘ Durée invalide ! Utilisez par ex. &e30s&c, &e10m&c, &e2h&c, &e1d &cou &e1h30m&c.",
+    "time-too-long": "&c✘ La durée ne peut pas dépasser &e{MAX} &c!"
   },
   "flyspeed": {
     "current": "&e&lℹ &eVitesse de vol actuelle : &b{SPEED}&e/10",
@@ -24,7 +35,9 @@
     "invalid-range": "&c✘ Vitesse invalide ! Utilisez des valeurs de 1 à 10.",
     "flight-not-enabled": "&c✘ Vous devez d'abord activer le vol !",
     "target-flight-not-enabled": "&c✘ Le joueur &e{PLAYER} &cn'a pas le vol activé !",
-    "usage": "&e&lℹ &eUtilisation : &f/flyspeed [1-10] &eou &f/flyspeed [joueur] [1-10]"
+    "usage": "&e&lℹ &eUtilisation : &f/flyspeed [1-10] &eou &f/flyspeed [joueur] [1-10]",
+    "above-limit": "&c✘ Votre vitesse de vol maximale est de &b{MAX}&c/10 !",
+    "target-above-limit": "&c✘ La vitesse de vol maximale de &e{PLAYER} &cest de &b{MAX}&c/10 !"
   },
   "reload": {
     "success": "&a&l+ &aConfiguration rechargée avec succès !",

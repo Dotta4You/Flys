@@ -5,15 +5,26 @@
     "enabled-other": "&a&l✔ &aFlight enabled for &e{PLAYER}&a!",
     "disabled-other": "&c&l✘ &cFlight disabled for &e{PLAYER}&4!",
     "enabled-by-other": "&b&lFlight was enabled by &e{SENDER}",
-    "disabled-by-other": "&e&lFlight was disabled by &e{SENDER}"
+    "disabled-by-other": "&e&lFlight was disabled by &e{SENDER}",
+    "timed-enabled-self": "&a&l✔ Flight enabled &7(&e{TIME}&7)",
+    "timed-enabled-other": "&a&l✔ &aFlight enabled for &e{PLAYER} &afor &e{TIME}&a!",
+    "timed-enabled-by-other": "&b&lFlight was enabled by &e{SENDER} &7(&e{TIME}&7)",
+    "timed-expired": "&e&l⌛ Your timed flight has ended",
+    "timed-warning": "&e&l⌛ Flight ends in &c&l{TIME}",
+    "combat-disabled": "&c&l✘ Flight disabled – you are in combat"
   },
   "errors": {
     "player-only": "&c✘ Only players can use this command!",
     "no-permission": "&c✘ You don't have permission for this command!",
     "player-not-found": "&c✘ Player &e{PLAYER} &cwas not found!",
-    "usage": "&e&lℹ &eUsage: &f/fly [player]",
+    "usage": "&e&lℹ &eUsage: &f/fly [player] [time]",
     "world-not-allowed": "&c✘ Flying is not allowed in this world!",
-    "native-flight": "&c✘ Flying can't be toggled in Creative or Spectator mode!"
+    "native-flight": "&c✘ Flying can't be toggled in Creative or Spectator mode!",
+    "in-combat": "&c✘ You can't fly while in combat! &7({TIME} left)",
+    "target-in-combat": "&c✘ &e{PLAYER} &ccan't fly while in combat! &7({TIME} left)",
+    "target-world-not-allowed": "&c✘ Flying is not allowed in the world of &e{PLAYER}&c!",
+    "invalid-time": "&c✘ Invalid time! Use e.g. &e30s&c, &e10m&c, &e2h&c, &e1d &cor &e1h30m&c.",
+    "time-too-long": "&c✘ The time can't be longer than &e{MAX}&c!"
   },
   "flyspeed": {
     "current": "&e&lℹ &eCurrent flight speed: &b{SPEED}&e/10",
@@ -23,7 +34,9 @@
     "invalid-range": "&c✘ Invalid speed! Use values from 1-10.",
     "flight-not-enabled": "&c✘ You must enable flight first!",
     "target-flight-not-enabled": "&c✘ Player &e{PLAYER} &cdoesn't have flight enabled!",
-    "usage": "&e&lℹ &eUsage: &f/flyspeed [1-10] &eor &f/flyspeed [player] [1-10]"
+    "usage": "&e&lℹ &eUsage: &f/flyspeed [1-10] &eor &f/flyspeed [player] [1-10]",
+    "above-limit": "&c✘ Your maximum flight speed is &b{MAX}&c/10!",
+    "target-above-limit": "&c✘ The maximum flight speed of &e{PLAYER} &cis &b{MAX}&c/10!"
   },
   "reload": {
     "success": "&a&l+ &aConfiguration successfully reloaded!",

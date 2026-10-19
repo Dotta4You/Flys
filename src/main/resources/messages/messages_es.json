@@ -6,15 +6,26 @@
     "enabled-other": "&a&l✔ &a¡Vuelo activado para &e{PLAYER}&a!",
     "disabled-other": "&c&l✘ &c¡Vuelo desactivado para &e{PLAYER}&4!",
     "enabled-by-other": "&b&lEl vuelo fue activado por &e{SENDER}",
-    "disabled-by-other": "&e&lEl vuelo fue desactivado por &e{SENDER}"
+    "disabled-by-other": "&e&lEl vuelo fue desactivado por &e{SENDER}",
+    "timed-enabled-self": "&a&l✔ Vuelo activado &7(&e{TIME}&7)",
+    "timed-enabled-other": "&a&l✔ &a¡Vuelo activado para &e{PLAYER} &adurante &e{TIME}&a!",
+    "timed-enabled-by-other": "&b&lEl vuelo fue activado por &e{SENDER} &7(&e{TIME}&7)",
+    "timed-expired": "&e&l⌛ Tu vuelo temporal ha terminado",
+    "timed-warning": "&e&l⌛ El vuelo termina en &c&l{TIME}",
+    "combat-disabled": "&c&l✘ Vuelo desactivado: estás en combate"
   },
   "errors": {
     "player-only": "&c✘ ¡Solo los jugadores pueden usar este comando!",
     "no-permission": "&c✘ ¡No tienes permiso para este comando!",
     "player-not-found": "&c✘ ¡Jugador &e{PLAYER} &cno encontrado!",
-    "usage": "&e&lℹ &eUso: &f/fly [jugador]",
+    "usage": "&e&lℹ &eUso: &f/fly [jugador] [tiempo]",
     "world-not-allowed": "&c✘ ¡No está permitido volar en este mundo!",
-    "native-flight": "&c✘ ¡No se puede alternar el vuelo en modo Creativo o Espectador!"
+    "native-flight": "&c✘ ¡No se puede alternar el vuelo en modo Creativo o Espectador!",
+    "in-combat": "&c✘ ¡No puedes volar en combate! &7(quedan {TIME})",
+    "target-in-combat": "&c✘ ¡El jugador &e{PLAYER} &cno puede volar en combate! &7(quedan {TIME})",
+    "target-world-not-allowed": "&c✘ ¡No se permite volar en el mundo de &e{PLAYER}&c!",
+    "invalid-time": "&c✘ ¡Tiempo inválido! Usa por ejemplo &e30s&c, &e10m&c, &e2h&c, &e1d &co &e1h30m&c.",
+    "time-too-long": "&c✘ ¡El tiempo no puede superar &e{MAX}&c!"
   },
   "flyspeed": {
     "current": "&e&lℹ &eVelocidad de vuelo actual: &b{SPEED}&e/10",
@@ -24,7 +35,9 @@
     "invalid-range": "&c✘ ¡Velocidad inválida! Usa valores de 1-10.",
     "flight-not-enabled": "&c✘ ¡Primero debes activar el vuelo!",
     "target-flight-not-enabled": "&c✘ ¡El jugador &e{PLAYER} &cno tiene el vuelo activado!",
-    "usage": "&e&lℹ &eUso: &f/flyspeed [1-10] &eo &f/flyspeed [jugador] [1-10]"
+    "usage": "&e&lℹ &eUso: &f/flyspeed [1-10] &eo &f/flyspeed [jugador] [1-10]",
+    "above-limit": "&c✘ ¡Tu velocidad de vuelo máxima es &b{MAX}&c/10!",
+    "target-above-limit": "&c✘ ¡La velocidad de vuelo máxima de &e{PLAYER} &ces &b{MAX}&c/10!"
   },
   "reload": {
     "success": "&a&l+ &a¡Configuración recargada exitosamente!",

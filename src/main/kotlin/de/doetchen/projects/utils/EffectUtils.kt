@@ -1,6 +1,6 @@
 /*
  * ==========================================
- * Fly's Plugin v1.4.3
+ * Fly's Plugin v1.5
  * Made by Dötchen with <3
  * https://github.com/Dotta4You/Flys
  * ==========================================
@@ -87,6 +87,12 @@ object EffectUtils {
 
         if (plugin.configManager.getBoolean("general.enable-sounds")) {
             player.playEffectSound("block.note_block.chime", 0.7f, 1.3f)
+        }
+    }
+
+    fun playTimedFlightWarningSound(player: Player, plugin: Flys) {
+        if (plugin.configManager.getBoolean("general.enable-sounds")) {
+            player.playEffectSound("block.note_block.hat", 0.7f, 1.4f)
         }
     }
 

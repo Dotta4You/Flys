@@ -6,15 +6,26 @@
     "enabled-other": "&a&l✔ &aLatanie włączone dla &e{PLAYER}&a!",
     "disabled-other": "&c&l✘ &cLatanie wyłączone dla &e{PLAYER}&4!",
     "enabled-by-other": "&b&lLatanie zostało włączone przez &e{SENDER}",
-    "disabled-by-other": "&e&lLatanie zostało wyłączone przez &e{SENDER}"
+    "disabled-by-other": "&e&lLatanie zostało wyłączone przez &e{SENDER}",
+    "timed-enabled-self": "&a&l✔ Latanie włączone &7(&e{TIME}&7)",
+    "timed-enabled-other": "&a&l✔ &aLatanie włączone dla &e{PLAYER} &ana &e{TIME}&a!",
+    "timed-enabled-by-other": "&b&lLatanie zostało włączone przez &e{SENDER} &7(&e{TIME}&7)",
+    "timed-expired": "&e&l⌛ Twoje czasowe latanie dobiegło końca",
+    "timed-warning": "&e&l⌛ Latanie kończy się za &c&l{TIME}",
+    "combat-disabled": "&c&l✘ Latanie wyłączone – jesteś w walce"
   },
   "errors": {
     "player-only": "&c✘ Tylko gracze mogą używać tej komendy!",
     "no-permission": "&c✘ Nie masz uprawnień do tej komendy!",
     "player-not-found": "&c✘ Gracz &e{PLAYER} &cnie został znaleziony!",
-    "usage": "&e&lℹ &eUżycie: &f/fly [gracz]",
+    "usage": "&e&lℹ &eUżycie: &f/fly [gracz] [czas]",
     "world-not-allowed": "&c✘ Latanie nie jest dozwolone w tym świecie!",
-    "native-flight": "&c✘ Latania nie można przełączać w trybie kreatywnym ani obserwatora!"
+    "native-flight": "&c✘ Latania nie można przełączać w trybie kreatywnym ani obserwatora!",
+    "in-combat": "&c✘ Nie możesz latać podczas walki! &7(pozostało {TIME})",
+    "target-in-combat": "&c✘ Gracz &e{PLAYER} &cnie może latać podczas walki! &7(pozostało {TIME})",
+    "target-world-not-allowed": "&c✘ Latanie nie jest dozwolone w świecie gracza &e{PLAYER}&c!",
+    "invalid-time": "&c✘ Nieprawidłowy czas! Użyj np. &e30s&c, &e10m&c, &e2h&c, &e1d &club &e1h30m&c.",
+    "time-too-long": "&c✘ Czas nie może być dłuższy niż &e{MAX}&c!"
   },
   "flyspeed": {
     "current": "&e&lℹ &eObecna prędkość lotu: &b{SPEED}&e/10",
@@ -24,7 +35,9 @@
     "invalid-range": "&c✘ Nieprawidłowa prędkość! Użyj wartości od 1 do 10.",
     "flight-not-enabled": "&c✘ Najpierw musisz włączyć latanie!",
     "target-flight-not-enabled": "&c✘ Gracz &e{PLAYER} &cnie ma włączonego latania!",
-    "usage": "&e&lℹ &eUżycie: &f/flyspeed [1-10] &elub &f/flyspeed [gracz] [1-10]"
+    "usage": "&e&lℹ &eUżycie: &f/flyspeed [1-10] &elub &f/flyspeed [gracz] [1-10]",
+    "above-limit": "&c✘ Twoja maksymalna prędkość lotu to &b{MAX}&c/10!",
+    "target-above-limit": "&c✘ Maksymalna prędkość lotu gracza &e{PLAYER} &cto &b{MAX}&c/10!"
   },
   "reload": {
     "success": "&a&l+ &aKonfiguracja pomyślnie przeładowana!",
